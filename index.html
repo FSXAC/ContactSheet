@@ -60,11 +60,15 @@
 <!-- image upload and pre-processing -->
 <script>
 document.getElementById('imageFolderInput').addEventListener('change', function(event) {
-    let files = event.target.files;
+    let files = Array.from(event.target.files);
     let preview = document.getElementById('imagePreview');
     preview.innerHTML = '';
-    let num_images = 0;
+    let num_images = files.length;
     let num_images_loaded = 0;
+    let images = [];
+
+    // Sort files by name
+    files.sort((a, b) => a.name.localeCompare(b.name));
 
     for (let i = 0; i < files.length; i++) {
         let file = files[i];
@@ -78,28 +82,29 @@ document.getElementById('imageFolderInput').addEventListener('change', function(
             let img = new Image();
             img.onload = function() {
                 let scaledImage = scaleImage(img, PREVIEW_HEIGHT);
-                preview.appendChild(scaledImage);
+                images.push({name: file.name, image: scaledImage});
+
+                num_images_loaded++;
+                if (num_images_loaded == num_images) {
+                    // Sort images by name and append to preview
+                    images.sort((a, b) => a.name.localeCompare(b.name));
+                    for (let j = 0; j < images.length; j++) {
+                        preview.appendChild(images[j].image);
+                    }
+
+                    refreshImages();
+                    document.getElementById('filmstripPreview').classList.remove('disabled');
+
+                    // enable preview
+                    previewDraw();
+                }
             };
             img.src = e.target.result;
-
-            num_images_loaded++;
-            if (num_images_loaded == num_images) {
-                refreshImages();
-                document.getElementById('filmstripPreview').classList.remove('disabled');
-
-                // enable preview
-                previewDraw();
-            }
         };
 
         // Read the image file as a data URL.
         reader.readAsDataURL(file);
-
-        num_images++;
     }
-
-    // enable preview
-    preview.classList.remove('disabled');
 });
 
 function scaleImage(img, maxHeight) {
