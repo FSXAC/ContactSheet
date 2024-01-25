@@ -7,24 +7,93 @@
     <title>Image Upload Tool</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        #imagePreview img {
+            width: 100px;
+            height: auto;
+            margin: 10px;
+        }
+    </style>
+    
+
 </head>
 
 <body>
     <div class="container">
         <h1 class="mt-5">Image Upload Tool</h1>
-        <form action="/upload" method="POST" enctype="multipart/form-data">
+        <!-- <form action="/upload" method="POST" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="imageUpload">Select Image:</label>
-                <input type="file" class="form-control-file" id="imageUpload" name="imageUpload">
+                <label for="imageUpload">Select Folder:</label>
+                <input type="file" class="form-control-file" id="imageUpload" name="imageUpload" webkitdirectory multiple>
             </div>
             <button type="submit" class="btn btn-primary">Upload</button>
-        </form>
+        </form> -->
+
+        <input type="file" id="imageFolderInput" webkitdirectory mozdirectory msdirectory odirectory directory multiple />
+        <div id="imagePreview"></div>
     </div>
 
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.getElementById('imageFolderInput').addEventListener('change', function(event) {
+            let files = event.target.files;
+            let preview = document.getElementById('imagePreview');
+            preview.innerHTML = '';
+    
+            for (let i = 0; i < files.length; i++) {
+                let file = files[i];
+    
+                // Only process image files.
+                if (!file.type.startsWith('image/')){ continue; }
+    
+                let reader = new FileReader();
+    
+                reader.onload = function(e) {
+                    let img = new Image();
+                    img.onload = function() {
+                        let scaledImage = scaleImage(img, 400);
+                        preview.appendChild(scaledImage);
+                    };
+                    img.src = e.target.result;
+                };
+    
+                // Read the image file as a data URL.
+                reader.readAsDataURL(file);
+            }
+        });
+    
+        function scaleImage(img, maxHeight) {
+            let canvas = document.createElement('canvas');
+            let ctx = canvas.getContext('2d');
+    
+            let width = img.width;
+            let height = img.height;
+    
+            // Calculate the new dimensions
+            if (height > maxHeight) {
+                width *= maxHeight / height;
+                height = maxHeight;
+            }
+    
+            canvas.width = width;
+            canvas.height = height;
+    
+            // Draw the scaled image
+            ctx.drawImage(img, 0, 0, width, height);
+    
+            // Convert canvas to an image
+            let scaledImage = new Image();
+            scaledImage.src = canvas.toDataURL();
+    
+            return scaledImage;
+        }
+    </script>
+    
+    
 </body>
 
 </html>
