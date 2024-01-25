@@ -2,98 +2,211 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Upload Tool</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Sheet Generator</title>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-    <style>
-        #imagePreview img {
-            width: 100px;
-            height: auto;
-            margin: 10px;
-        }
-    </style>
-    
+<style>
+    #imagePreview img {
+        width: 50px;
+        height: auto;
+        margin: 5px;
+    }
 
+    .disabled {
+        pointer-events: none;
+        opacity: 0.4;
+    }
+</style>
 </head>
 
 <body>
-    <div class="container">
-        <h1 class="mt-5">Image Upload Tool</h1>
-        <!-- <form action="/upload" method="POST" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="imageUpload">Select Folder:</label>
-                <input type="file" class="form-control-file" id="imageUpload" name="imageUpload" webkitdirectory multiple>
-            </div>
-            <button type="submit" class="btn btn-primary">Upload</button>
-        </form> -->
+<div class="container">
+    <h1 class="mt-5">Contact Sheet Generator</h1>
+    <p>
+        Celebrating film photography, this tool generates a contact sheet from a folder of images with realistic film borders.
+    </p>
 
-        <input type="file" id="imageFolderInput" webkitdirectory mozdirectory msdirectory odirectory directory multiple />
-        <div id="imagePreview"></div>
+    <h3 class="mt-4">Image uploads</h3>
+    <input type="file" id="imageFolderInput" webkitdirectory mozdirectory msdirectory odirectory directory multiple class="btn btn-primary" />
+    
+    <h3 class="mt-4">Image previews</h3>
+    <div id="imagePreview" class="my-4 p-3 disabled" style="border: 1px solid #ccc; border-radius: 1em;">
+        <p>No images</p>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        document.getElementById('imageFolderInput').addEventListener('change', function(event) {
-            let files = event.target.files;
-            let preview = document.getElementById('imagePreview');
-            preview.innerHTML = '';
-    
-            for (let i = 0; i < files.length; i++) {
-                let file = files[i];
-    
-                // Only process image files.
-                if (!file.type.startsWith('image/')){ continue; }
-    
-                let reader = new FileReader();
-    
-                reader.onload = function(e) {
-                    let img = new Image();
-                    img.onload = function() {
-                        let scaledImage = scaleImage(img, 400);
-                        preview.appendChild(scaledImage);
-                    };
-                    img.src = e.target.result;
-                };
-    
-                // Read the image file as a data URL.
-                reader.readAsDataURL(file);
+    <h3 class="mt-4">Filmstrip preview</h3>
+    <div id="filmstripPreview" class="mt-4 disabled">
+        <div>
+            <button id="refreshButton" class="btn btn-secondary" onclick="refreshImages()">Refresh</button>
+            <button id="previewButton" class="btn btn-secondary" onclick="previewDraw()">Preview</button>
+        </div>
+        <canvas class="my-3" id="p5canvas"></canvas>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- p5.js -->
+<script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.js"></script>
+
+<!-- other js -->
+<script src="filmstock_properties.js"></script>
+<!-- image upload and pre-processing -->
+<script>
+document.getElementById('imageFolderInput').addEventListener('change', function(event) {
+    let files = event.target.files;
+    let preview = document.getElementById('imagePreview');
+    preview.innerHTML = '';
+    let num_images = 0;
+    let num_images_loaded = 0;
+
+    for (let i = 0; i < files.length; i++) {
+        let file = files[i];
+
+        // Only process image files.
+        if (!file.type.startsWith('image/')){ continue; }
+
+        let reader = new FileReader();
+
+        reader.onload = function(e) {
+            let img = new Image();
+            img.onload = function() {
+                let scaledImage = scaleImage(img, PREVIEW_HEIGHT);
+                preview.appendChild(scaledImage);
+            };
+            img.src = e.target.result;
+
+            num_images_loaded++;
+            if (num_images_loaded == num_images) {
+                refreshImages();
+                document.getElementById('filmstripPreview').classList.remove('disabled');
+
+                // enable preview
+                previewDraw();
             }
-        });
-    
-        function scaleImage(img, maxHeight) {
-            let canvas = document.createElement('canvas');
-            let ctx = canvas.getContext('2d');
-    
-            let width = img.width;
-            let height = img.height;
-    
-            // Calculate the new dimensions
-            if (height > maxHeight) {
-                width *= maxHeight / height;
-                height = maxHeight;
-            }
-    
-            canvas.width = width;
-            canvas.height = height;
-    
-            // Draw the scaled image
-            ctx.drawImage(img, 0, 0, width, height);
-    
-            // Convert canvas to an image
-            let scaledImage = new Image();
-            scaledImage.src = canvas.toDataURL();
-    
-            return scaledImage;
+        };
+
+        // Read the image file as a data URL.
+        reader.readAsDataURL(file);
+
+        num_images++;
+    }
+
+    // enable preview
+    preview.classList.remove('disabled');
+});
+
+function scaleImage(img, maxHeight) {
+    let canvas = document.createElement('canvas');
+    let ctx = canvas.getContext('2d');
+
+    let width = img.width;
+    let height = img.height;
+
+    // if landscape
+    if (width > height) {
+        // 
+
+        // Calculate the new dimensions
+        if (height > maxHeight) {
+            width *= maxHeight / height;
+            height = maxHeight;
         }
-    </script>
-    
-    
+
+        canvas.width = width;
+        canvas.height = height;
+
+        // Draw the scaled image
+        ctx.drawImage(img, 0, 0, width, height);
+
+        // Convert canvas to an image
+        let scaledImage = new Image();
+        scaledImage.src = canvas.toDataURL();
+
+        return scaledImage;
+    } else { // rotate image
+        // Calculate the new dimensions
+        if (width > maxHeight) {
+            height *= maxHeight / width;
+            width = maxHeight;
+        }
+
+        canvas.width = height;
+        canvas.height = width;
+
+        // Draw the scaled image
+        ctx.translate(height, 0);
+        ctx.rotate(90 * Math.PI / 180);
+        ctx.drawImage(img, 0, 0, width, height);
+
+        // Convert canvas to an image
+        let scaledImage = new Image();
+        scaledImage.src = canvas.toDataURL();
+
+        return scaledImage;
+    }
+}
+</script>
+
+<!-- p5.js -->
+<script>
+// pimage
+let images = [];
+
+function refreshImages() {
+    // load images from preview
+    images = [];
+    let preview = document.getElementById('imagePreview');
+    let previewImages = preview.getElementsByTagName('img');
+    for (let i = 0; i < previewImages.length; i++) {
+        let img = previewImages[i];
+        images.push(loadImage(img.src));
+    }
+
+    console.log(images);
+}
+
+function renderFilmstrip(images) {
+
+}
+
+function previewDraw() {
+    redraw();
+}
+
+function setup() {
+    createCanvas(800, 800, document.getElementById('p5canvas'));
+    background(0);
+    noLoop();
+}
+
+function draw() {
+    background(0);
+
+    // draw all images in a grid
+    let x = 0;
+    let y = 0;
+    let w = width / 4;
+    let h = height / 4;
+    for (let i = 0; i < images.length; i++) {
+        let img = images[i];
+        image(img, x, y, w, h);
+        x += w;
+        if (x >= width) {
+            x = 0;
+            y += h;
+        }
+    }
+}
+</script>
+
+
 </body>
 
 </html>
