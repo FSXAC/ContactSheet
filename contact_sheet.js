@@ -35,7 +35,7 @@ function addTopLineText(fs, text, size_mm, margin_top_mm, interval_mm, offset_mm
     fs.fill(FILM_BORDER_COLOR);
     fs.noStroke();
     fs.textSize(size_px);
-    fs.textAlign(CENTER, TOP);
+    fs.textAlign(LEFT, TOP);
     fs.textFont(textfont);
 
     fs.push();
@@ -159,7 +159,8 @@ function renderFilmstrip(images) {
     fs.background(0);
 
     // draw film border
-    addTopLineText(fs, "ILFORD HP5 PLUS", 2.1, 0, 37.7, 0, FONTS.vcd);
+    addTopLineText(fs, "ILFORD HP5 PLUS", 2.1, 0, 37.87, 12, FONTS.vcd);
+    addTopLineText(fs, "5535-12", 1.0, 0.3, 113.61, 35, FONTS.vcd);
     addBottomLine(fs);
 
     // draw sprocket holes
