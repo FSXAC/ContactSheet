@@ -33,7 +33,7 @@
     <input type="file" id="imageFolderInput" webkitdirectory mozdirectory msdirectory odirectory directory multiple class="btn btn-primary" />
     
     <h3 class="mt-4">Image previews</h3>
-    <div id="imagePreview" class="my-4 p-3 disabled" style="border: 1px solid #ccc; border-radius: 1em;">
+    <div id="imagePreview" class="my-4 p-3 pb-5 disabled" >
         <p>No images</p>
     </div>
 
@@ -43,7 +43,7 @@
             <button id="refreshButton" class="btn btn-secondary" onclick="refreshImages()">Refresh</button>
             <button id="previewButton" class="btn btn-secondary" onclick="previewDraw()">Preview</button>
         </div>
-        <div style="border: 1px solid #ccc; border-radius: 1em; overflow-x: scroll;">
+        <div class="pb-5" style="overflow-x: scroll;">
             <img src="#" alt="" id="filmstripimg">
         </div>
         <canvas class="my-3" id="p5canvas"></canvas>

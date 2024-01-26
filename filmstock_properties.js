@@ -1,7 +1,7 @@
 // various physical film properties
 
 // this is the preview height in pixels
-const PREVIEW_HEIGHT = 400;
+const PREVIEW_HEIGHT = 150;
 
 // physical film dimensions in mm
 const SHOT_WIDTH_MM = 36;
@@ -33,3 +33,16 @@ const SPROCKET_HOLE_SPACING_WIDTH_PX = SPROCKET_HOLE_SPACING_WIDTH_MM * SCALE;
 const SPROCKET_HOLE_HEIGHT_PX = SPROCKET_HOLE_HEIGHT_MM * SCALE;
 const SPROCKET_HOLE_MARGIN_PX = SPROCKET_HOLE_MARGIN_MM * SCALE;
 const SPROCKET_HOLE_ROUNDING_PX = SPROCKET_HOLE_ROUNDING_MM * SCALE;
+
+// const ILFORD_HP5 = {
+//     name: "ILFORD HP5 PLUS",
+//     top_line: "ILFORD HP5 PLUS",
+//     top_line_interval_mm: 37.7,
+//     top_line_follow_frame: false,
+//     top_line_text_size_mm: 2.1,
+//     top_line_margin_mm: 1.5,
+// };
+
+// const FILM_STOCKS = [
+//     ILFORD_HP5
+// ];
