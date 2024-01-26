@@ -43,6 +43,7 @@ document.getElementById('imageFolderInput').addEventListener('change', function(
 
         // Read the image file as a data URL.
         reader.readAsDataURL(file);
+        document.getElementById('imagePreview').classList.remove('disabled');
     }
 });
 
