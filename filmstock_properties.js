@@ -16,9 +16,9 @@ const SPROCKET_HOLE_MARGIN_MM = 1.75;
 const SPROCKET_HOLE_ROUNDING_MM = 0.65;
 
 let SPROKET_HOLE_COLOR = "#000";
-let SPROKET_HOLE_STROKE_COLOR = "#777";
+let SPROKET_HOLE_STROKE_COLOR = "#444";
 
-let FILM_BORDER_COLOR = "#FFF";
+let FILM_BORDER_COLOR = "#ccc";
 
 // based on preview height, calculate the scale factor mm -> px
 const SCALE = PREVIEW_HEIGHT / SHOT_HEIGHT_MM;

@@ -2,66 +2,68 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact Sheet Generator</title>
-<!-- Bootstrap CSS -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Sheet Generator</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-<style>
-    #imagePreview img {
-        width: 50px;
-        height: auto;
-        margin: 5px;
-    }
+    <style>
+        #imagePreview img {
+            width: 50px;
+            height: auto;
+            margin: 5px;
+        }
 
-    .disabled {
-        pointer-events: none;
-        opacity: 0.4;
-    }
-</style>
+        .disabled {
+            pointer-events: none;
+            opacity: 0.4;
+        }
+    </style>
 </head>
 
 <body>
-<div class="container">
-    <h1 class="mt-5">Contact Sheet Generator</h1>
-    <p>
-        Celebrating film photography, this tool generates a contact sheet from a folder of images with realistic film borders.
-    </p>
+    <div class="container">
+        <h1 class="mt-5">Contact Sheet Generator</h1>
+        <p>
+            Celebrating film photography, this tool generates a contact sheet from a folder of images with realistic
+            film borders.
+        </p>
 
-    <h3 class="mt-4">Image uploads</h3>
-    <input type="file" id="imageFolderInput" webkitdirectory mozdirectory msdirectory odirectory directory multiple class="btn btn-primary" />
-    
-    <h3 class="mt-4">Image previews</h3>
-    <div id="imagePreview" class="my-4 p-3 pb-5 disabled" >
-        <p>No images</p>
+        <h3 class="mt-4">Image uploads</h3>
+        <input type="file" id="imageFolderInput" webkitdirectory mozdirectory msdirectory odirectory directory multiple
+            class="btn btn-primary" />
+
+        <h3 class="mt-4">Image previews</h3>
+        <div id="imagePreview" class="my-4 p-3 pb-5 disabled">
+            <p>No images</p>
+        </div>
+
+        <h3 class="mt-4">Filmstrip preview</h3>
+        <div id="filmstripPreview" class="mt-4">
+            <div class="my-3">
+                <button id="refreshButton" class="btn btn-secondary" onclick="refreshImages()">Refresh</button>
+                <button id="previewButton" class="btn btn-secondary" onclick="previewDraw()">Preview</button>
+            </div>
+            <div class="pb-2" style="overflow-x: scroll;">
+                <img src="#" alt="" id="filmstripimg">
+            </div>
+            <canvas class="my-3" id="p5canvas"></canvas>
+        </div>
     </div>
 
-    <h3 class="mt-4">Filmstrip preview</h3>
-    <div id="filmstripPreview" class="mt-4 disabled">
-        <div>
-            <button id="refreshButton" class="btn btn-secondary" onclick="refreshImages()">Refresh</button>
-            <button id="previewButton" class="btn btn-secondary" onclick="previewDraw()">Preview</button>
-        </div>
-        <div class="pb-5" style="overflow-x: scroll;">
-            <img src="#" alt="" id="filmstripimg">
-        </div>
-        <canvas class="my-3" id="p5canvas"></canvas>
-    </div>
-</div>
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<!-- Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- p5.js -->
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.js"></script>
 
-<!-- p5.js -->
-<script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.js"></script>
-
-<script src="image_loader.js"></script>
-<script src="filmstock_properties.js"></script>
-<script src="contact_sheet.js"></script>
-
+    <script src="image_loader.js"></script>
+    <script src="filmstock_properties.js"></script>
+    <script src="dxcode.js"></script>
+    <script src="contact_sheet.js"></script>
 
 </body>
 

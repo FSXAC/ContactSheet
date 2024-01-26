@@ -86,18 +86,25 @@ function addBottomLine(
 
     let FW = SHOT_WIDTH_PX + HPADDING_PX;
 
+    // random offset to the left, [0.2FW, 0.7FW]
+    let RANDOM_OFFSET = Math.random() * 0.5 * FW + 0.2 * FW;
+    let MAX_WIDTH = fs.width + RANDOM_OFFSET;
+
+    fs.push();
+    fs.translate(-RANDOM_OFFSET, 0);
+
     // draw frame count
     fs.fill(FILM_BORDER_COLOR);
     fs.noStroke();
     fs.textSize(fc_size_px);
     fs.textAlign(CENTER, BOTTOM);
-    for (let x = 0, fc = fc_start; x < fs.width; x += FW, fc++) {
+    for (let x = 0, fc = fc_start; x < MAX_WIDTH; x += FW, fc++) {
         fs.text(frameCountToString(fc), x, fs.height - fc_margin_px);
     }
 
     // draw frame count 2
     fs.textSize(fc2_size_px);
-    for (let x = 0 + FW / 2 + fc2_hoffset_px, fc = fc_start; x < fs.width; x += FW, fc++) {
+    for (let x = 0 + FW / 2 + fc2_hoffset_px, fc = fc_start; x < MAX_WIDTH; x += FW, fc++) {
         fs.text(frameCountToString(fc) + "A", x, fs.height - fc2_margin_px);
     }
 
@@ -106,7 +113,7 @@ function addBottomLine(
     fs.stroke(FILM_BORDER_COLOR);
     fs.textAlign(CENTER, CENTER);
     fs.strokeWeight(1);
-    for (let x = 0 + FW / 2; x < fs.width; x += FW) {
+    for (let x = 0 + FW / 2; x < MAX_WIDTH; x += FW) {
         fs.push();
         fs.translate(x, fs.height - fc2_tri_margin_px);
         fs.triangle(
@@ -118,14 +125,26 @@ function addBottomLine(
     }
 
     // draw dx code (rectangle)
-    let dx1 = (FW - 2 * dx_code_width_px) / 4;
-    let dx2 = dx1 + FW / 2;
+    let delta_x1 = (FW - 2 * dx_code_width_px) / 4;
+    let delta_x2 = delta_x1 + FW / 2;
     fs.fill(FILM_BORDER_COLOR);
     fs.noStroke();
-    for (let x = 0; x < fs.width; x += FW) {
-        fs.rect(x + dx1, fs.height - dx_code_height_px, dx_code_width_px, dx_code_height_px);
-        fs.rect(x + dx2, fs.height - dx_code_height_px, dx_code_width_px, dx_code_height_px);
+    let framenum = fc_start * 2;
+    let dx_num = 17534;
+    for (let x = 0; x < MAX_WIDTH; x += FW) {
+        // fs.rect(x + delta_x1, fs.height - dx_code_height_px, dx_code_width_px, dx_code_height_px);
+        // fs.rect(x + delta_x2, fs.height - dx_code_height_px, dx_code_width_px, dx_code_height_px);
+
+        // draw dx code (text)
+        let dx1 = drawDX(dx_num, framenum, dx_code_width_px, dx_code_height_px);
+        framenum++;
+        let dx2 = drawDX(dx_num, framenum, dx_code_width_px, dx_code_height_px);
+        framenum++;
+        fs.image(dx1, x + delta_x1, fs.height - dx_code_height_px);
+        fs.image(dx2, x + delta_x2, fs.height - dx_code_height_px);
     }
+
+    fs.pop();
 }
 
 function renderFilmstrip(images) {
