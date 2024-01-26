@@ -5,6 +5,9 @@ let FONTS = {
     vcd: null
 };
 
+function randrange(min, max) {
+    return Math.random() * (max - min) + min;
+}
 
 function refreshImages() {
     // load images from preview
@@ -136,12 +139,14 @@ function addBottomLine(
         // fs.rect(x + delta_x2, fs.height - dx_code_height_px, dx_code_width_px, dx_code_height_px);
 
         // draw dx code (text)
-        let dx1 = drawDX(dx_num, framenum, dx_code_width_px, dx_code_height_px);
+        let dx1 = drawDX(dx_num, framenum);
         framenum++;
-        let dx2 = drawDX(dx_num, framenum, dx_code_width_px, dx_code_height_px);
+        let dx2 = drawDX(dx_num, framenum);
         framenum++;
-        fs.image(dx1, x + delta_x1, fs.height - dx_code_height_px);
-        fs.image(dx2, x + delta_x2, fs.height - dx_code_height_px);
+        // fs.image(dx1, x + delta_x1, fs.height - dx_code_height_px);
+        // fs.image(dx2, x + delta_x2, fs.height - dx_code_height_px);
+        fs.image(dx1, x + delta_x1, fs.height - dx_code_height_px, dx_code_width_px, dx_code_height_px);
+        fs.image(dx2, x + delta_x2, fs.height - dx_code_height_px, dx_code_width_px, dx_code_height_px);
     }
 
     fs.pop();
@@ -179,6 +184,33 @@ function renderFilmstrip(images) {
     return fs;
 }
 
+function renderContactSheet(filmstrip, num_cols, padding_mm) {
+    let padding_px = padding_mm * SCALE;
+    let cs_width = num_cols * (SHOT_WIDTH_PX + HPADDING_PX) - HPADDING_PX + 2 * padding_px;
+    let cs_height = Math.ceil(images.length / num_cols) * filmstrip.height + 2 * padding_px;
+    let cs = createGraphics(cs_width, cs_height);
+
+    cs.background(0);
+    cs.fill(FILM_BORDER_COLOR);
+    cs.noStroke();
+    cs.push();
+    cs.translate(0, padding_px);
+    for (let i = 0, j = 0; i < images.length; i += num_cols, j++) {
+        let start_x = padding_px + randrange(0.2, 0.8) * HPADDING_PX;
+        let x = j * num_cols * (SHOT_WIDTH_PX + HPADDING_PX) + HPADDING_PX;
+        let y = j * filmstrip.height;
+        cs.image(filmstrip, start_x - x, y);
+    }
+    cs.pop();
+
+    cs.fill(0);
+    cs.noStroke();
+    cs.rect(0, 0, padding_px, cs.height);
+    cs.rect(cs.width - padding_px, 0, cs.width, cs.height);
+
+    return cs;
+}
+
 function previewDraw() {
     redraw();
 
@@ -188,6 +220,13 @@ function previewDraw() {
     let fsimg = document.getElementById('filmstripimg');
     fsimg.src = fs.canvas.toDataURL();
     fsimg.style.display = 'block';
+
+    // draw contact sheet
+    let cs = renderContactSheet(fs, 5, 3);
+    // put cs as image to #contactsheetimg
+    let csimg = document.getElementById('contactsheetimg');
+    csimg.src = cs.canvas.toDataURL();
+    csimg.style.display = 'block';
 }
 
 

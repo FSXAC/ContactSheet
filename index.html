@@ -19,6 +19,14 @@
             pointer-events: none;
             opacity: 0.4;
         }
+
+        #p5canvas {
+            display: none;
+        }
+
+        #contactsheetimg {
+            width: 100%;
+        }
     </style>
 </head>
 
@@ -51,15 +59,20 @@
             <canvas class="my-3" id="p5canvas"></canvas>
         </div>
 
-        <h3>To-dos</h3>
+        <h3 class="mt-4">Contact Sheet</h3>
+        <div>
+            <img src="#" alt="" id="contactsheetimg">
+        </div>
+
+        <h3 class="mt-4">To-dos</h3>
         <ul>
-            <li>Make actual contact sheet from filmstrip</li>
             <li>Add loading/progress bars</li>
             <li>Add options for output resolution</li>
             <li>Add other film stocks</li>
             <li>Add togglable options</li>
             <li>Make this run faster</li>
             <li>UI/UX design</li>
+        </ul>
     </div>
 
     <!-- Bootstrap JS -->

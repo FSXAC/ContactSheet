@@ -87,13 +87,18 @@ function makeDataTrack(dx, frameNum) {
     return dataTrack;
 }
 
-function drawDX(dx, frameNum, width, height) {
-    let bit_width = width / 31;
-    let bit_height = height / 2;
+function drawDX(dx, frameNum) {
+    
+    let bit_width = 2;
+    let bit_height = 5;
+    // console.log("bit_width: " + bit_width + ", bit_height: " + bit_height);
+    // let bit_width = width / 31;
+    // let bit_height = height / 2;
 
-    let dxImage = createGraphics(width, height);
+    let dxImage = createGraphics(bit_width * 31, bit_height * 2);
     dxImage.noStroke();
     dxImage.background(0);
+    dxImage.fill(255);
     
     // dxImage.stroke(255);
     dxImage.noStroke();
@@ -101,25 +106,20 @@ function drawDX(dx, frameNum, width, height) {
     // draw clock track
     for (let i = 0; i < 31; i++) {
         if (CLK_TRACK[i] === 1) {
-            dxImage.fill(255);
-        } else {
-            dxImage.fill(0);
+            dxImage.rect(i * bit_width, 0, bit_width, bit_height);
         }
-        dxImage.rect(i * bit_width, 0, bit_width, bit_height);
+       
     }
 
     // draw data track
     let dataTrack = makeDataTrack(dx, frameNum);
     for (let i = 0; i < 31; i++) {
         if (dataTrack[i] === 1) {
-            dxImage.fill(255);
-        } else {
-            dxImage.fill(0);
+            dxImage.rect(i * bit_width, bit_height, bit_width, bit_height);
         }
-        dxImage.rect(i * bit_width, bit_height, bit_width, bit_height);
     }
-
-    return dxImage;
+    
+    return dxImage
 }
 
 console.log(CLK_TRACK);
