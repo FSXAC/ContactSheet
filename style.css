@@ -127,7 +127,7 @@ body {
     user-select: none;
 }
 #imagePreview img {
-    width: 50px;
+    width: 90px;
     height: auto;
     margin: 5px;
     pointer-events: none;
@@ -175,6 +175,22 @@ button.p-active {
     max-width: 300px;
 }
 
+#imagePreviewWindow {
+    max-width: 740px;
+}
+
+#filmstripPreviewWindow {
+    max-width: 1280px;
+}
+
+#contactSheetWindow {
+    max-width: 800px;
+}
+
+#todoWindow {
+    max-width: 200px;
+}
+
 @media (max-width: 600px) {
     #welcome {
         max-width: 100%;
@@ -204,3 +220,4 @@ button.p-active {
     left: 50%;
     transform: translateX(-50%);
 }
+

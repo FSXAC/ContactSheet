@@ -24,6 +24,13 @@ document.getElementById('uploadImageButton').addEventListener('change', function
                 images.push({name: file.name, image: scaledImage});
 
                 num_images_loaded++;
+                
+                // update progress bar
+                let progressBar = document.getElementById('uploadProgressBar');
+                progressBar.style.width = (num_images_loaded / num_images * 100) + '%';
+                let progressText = document.getElementById('uploadProgressText');
+                progressText.innerHTML = num_images_loaded + ' / ' + num_images;
+
                 if (num_images_loaded == num_images) {
                     // Sort images by name and append to preview
                     images.sort((a, b) => a.name.localeCompare(b.name));

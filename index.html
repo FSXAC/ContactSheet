@@ -71,9 +71,9 @@
                 <p>No images will be uploaded to the server. All processing is done locally in your browser.</p>
             </div>
             <input type="file" id="uploadImageButton" webkitdirectory mozdirectory msdirectory odirectory directory multiple/>
-            <section class="field-row">
+            <!-- <section class="field-row">
                 <button id="uploadOKButton" class="btn btn-primary" onclick="uploadImages()" disabled>OK</button>
-            </section>
+            </section> -->
         </div>  
     </div>
 
@@ -82,13 +82,14 @@
             <div class="title-bar-text">Processing</div>
         </div>
         <div class="window-body">
+            <img src="tshell32_168.gif" alt="">
             <p>Processing images...</p>
-            <p id="uploadProgressText" class="progress-bar-text">0%</p>
+            <p id="uploadProgressText" class="progress-bar-text"></p>
             <div class="progress">
                 <div id="uploadProgressBar" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
 
-            <script>
+            <!-- <script>
                 // test progress bar
                 // run when document is ready
                 document.addEventListener("DOMContentLoaded", function() {
@@ -106,58 +107,90 @@
                         }
                     }
                 });
-            </script>
+            </script> -->
+        </div>
+    </div>
+
+    <div class="window" id="imagePreviewWindow">
+        <div class="title-bar">
+            <div class="title-bar-text">Image Preview</div>
+                <div class="title-bar-controls">
+                <button aria-label="Minimize"></button>
+                <button aria-label="Maximize"></button>
+                <button aria-label="Close"></button>
+            </div>
+        </div>
+        <div class="window-body">
+
+            <div id="imagePreview">
+                <p>No images</p>
+            </div>
+
+            <section class="field-row">
+                <button id="imagePreviewCancel">Start Over</button>
+                <button id="imagePreviewProceed">Continue</button>
+            </section>
+        </div>
+            
+    </div>
+
+    <div class="window" id="filmstripPreviewWindow">
+        <div class="title-bar">
+            <div class="title-bar-text">Filmstrip Preview</div>
+                <div class="title-bar-controls">
+                <button aria-label="Minimize"></button>
+                <button aria-label="Maximize"></button>
+                <button aria-label="Close"></button>
+            </div>
+        </div>
+        <div class="window-body">
+            <div id="filmstripPreview">
+                <div class="my-3">
+                    <button id="refreshButton" onclick="refreshImages()">Refresh</button>
+                    <button id="previewButton" onclick="previewDraw()">Preview</button>
+                </div>
+                <div class="pb-2" style="overflow-x: scroll;">
+                    <img src="#" alt="" id="filmstripimg">
+                </div>
+                <!-- <canvas class="my-3" id="p5canvas"></canvas> -->
+            </div>
+        </div>
+    </div>
+
+    <div class="window" id="contactSheetWindow">
+        <div class="title-bar">
+            <div class="title-bar-text">Contact Sheet</div>
+                <div class="title-bar-controls">
+                <button aria-label="Minimize"></button>
+                <button aria-label="Maximize"></button>
+                <button aria-label="Close"></button>
+            </div>
+        </div>
+        <div class="window-body">
+            <img src="#" alt="" id="contactsheetimg">
         </div>
     </div>
 
 
-    <div id="main_container" class="hidden">
-        <div class="window">
-            <div class="title-bar">
-                <div class="title-bar-text">A Complete Window</div>
+    <!-- todo -->
+    <div class="window" id="todoWindow">
+        <div class="title-bar">
+            <div class="title-bar-text">To Do</div>
                 <div class="title-bar-controls">
-                    <button aria-label="Minimize"></button>
-                    <button aria-label="Maximize"></button>
-                    <button onclick="reset()" aria-label="Close"></button>
-                </div>
+                <button aria-label="Minimize"></button>
+                <button aria-label="Maximize"></button>
+                <button aria-label="Close"></button>
             </div>
-            <div class="window-body">
-                <h3 class="mt-4">Image uploads</h3>
-                <input type="file" id="imageFolderInput" webkitdirectory mozdirectory msdirectory odirectory directory multiple
-                    class="btn btn-primary" />
-
-                <h3 class="mt-4">Image previews</h3>
-                <div id="imagePreview" class="my-4 disabled">
-                    <p>No images</p>
-                </div>
-
-                <h3 class="mt-4">Filmstrip preview</h3>
-                <div id="filmstripPreview" class="mt-4 disabled">
-                    <div class="my-3">
-                        <button id="refreshButton" class="btn btn-secondary" onclick="refreshImages()">Refresh</button>
-                        <button id="previewButton" class="btn btn-secondary" onclick="previewDraw()">Preview</button>
-                    </div>
-                    <div class="pb-2" style="overflow-x: scroll;">
-                        <img src="#" alt="" id="filmstripimg">
-                    </div>
-                    <canvas class="my-3" id="p5canvas"></canvas>
-                </div>
-
-                <h3 class="mt-4">Contact Sheet</h3>
-                <div>
-                    <img src="#" alt="" id="contactsheetimg">
-                </div>
-
-                <h3 class="mt-4">To-dos</h3>
-                <ul>
-                    <li>Add loading/progress bars</li>
-                    <li>Add options for output resolution</li>
-                    <li>Add other film stocks</li>
-                    <li>Add togglable options</li>
-                    <li>Make this run faster</li>
-                    <li>UI/UX design</li>
-                </ul>
-            </div>
+        </div>
+        <div class="window-body">
+            <ul class="tree-view">
+                <li>Add loading/progress bars</li>
+                <li>Add options for output resolution</li>
+                <li>Add other film stocks</li>
+                <li>Add togglable options</li>
+                <li>Make this run faster</li>
+                <li>UI/UX design</li>
+            </ul>
         </div>
     </div>
 
