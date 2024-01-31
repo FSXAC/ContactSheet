@@ -1,61 +1,68 @@
-document.getElementById('uploadImageButton').addEventListener('change', function(event) {
-    let files = Array.from(event.target.files);
-    let preview = document.getElementById('imagePreview');
-    preview.innerHTML = '';
-    let num_images = files.length;
-    let num_images_loaded = 0;
-    let images = [];
+function addUploaderEventListener() {
+    document.getElementById('uploadImageButton').addEventListener('change', function(event) {
+        let files = Array.from(event.target.files);
+        let preview = document.getElementById('imagePreview');
+        preview.innerHTML = '';
+        let num_images = files.length;
+        let num_images_loaded = 0;
+        let images = [];
 
-    // Sort files by name
-    files.sort((a, b) => a.name.localeCompare(b.name));
+        // Sort files by name
+        files.sort((a, b) => a.name.localeCompare(b.name));
 
-    for (let i = 0; i < files.length; i++) {
-        let file = files[i];
+        for (let i = 0; i < files.length; i++) {
+            let file = files[i];
 
-        // Only process image files.
-        if (!file.type.startsWith('image/')){ continue; }
+            // Only process image files.
+            if (!file.type.startsWith('image/')){ continue; }
 
-        let reader = new FileReader();
+            let reader = new FileReader();
 
-        reader.onload = function(e) {
-            let img = new Image();
-            img.onload = function() {
-                let scaledImage = scaleImage(img, PREVIEW_HEIGHT);
-                images.push({name: file.name, image: scaledImage});
+            startLoad();
 
-                num_images_loaded++;
-                
-                // update progress bar
-                let progressBar = document.getElementById('uploadProgressBar');
-                progressBar.style.width = (num_images_loaded / num_images * 100) + '%';
-                let progressText = document.getElementById('uploadProgressText');
-                progressText.innerHTML = num_images_loaded + ' / ' + num_images;
+            reader.onload = function(e) {
+                let img = new Image();
+                img.onload = function() {
+                    let scaledImage = scaleImage(img, PREVIEW_HEIGHT);
+                    images.push({name: file.name, image: scaledImage});
 
-                if (num_images_loaded == num_images) {
-                    // Sort images by name and append to preview
-                    images.sort((a, b) => a.name.localeCompare(b.name));
-                    for (let j = 0; j < images.length; j++) {
-                        preview.appendChild(images[j].image);
+                    num_images_loaded++;
+                    
+                    // update progress bar
+                    let progressBar = document.getElementById('uploadProgressBar');
+                    progressBar.style.width = (num_images_loaded / num_images * 100) + '%';
+                    let progressText = document.getElementById('uploadProgressText');
+                    progressText.innerHTML = num_images_loaded + ' / ' + num_images;
+
+                    if (num_images_loaded == num_images) {
+                        // Sort images by name and append to preview
+                        images.sort((a, b) => a.name.localeCompare(b.name));
+                        for (let j = 0; j < images.length; j++) {
+                            preview.appendChild(images[j].image);
+                        }
+
+                        finishLoad();
+
+                        refreshImages();
+                        // document.getElementById('filmstripPreview').classList.remove('disabled');
+
+                        // enable preview
+                        previewDraw();
+
+                        // enable ok button remove 'disabled' attribute
+                        // document.getElementById('uploadOKButton').removeAttribute('disabled');
                     }
-
-                    refreshImages();
-                    document.getElementById('filmstripPreview').classList.remove('disabled');
-
-                    // enable preview
-                    previewDraw();
-
-                    // enable ok button remove 'disabled' attribute
-                    document.getElementById('uploadOKButton').removeAttribute('disabled');
-                }
+                };
+                img.src = e.target.result;
             };
-            img.src = e.target.result;
-        };
 
-        // Read the image file as a data URL.
-        reader.readAsDataURL(file);
-        document.getElementById('imagePreview').classList.remove('disabled');
-    }
-});
+            // Read the image file as a data URL.
+            reader.readAsDataURL(file);
+            document.getElementById('imagePreview').classList.remove('disabled');
+        }
+    });
+}
+
 
 function scaleImage(img, maxHeight) {
     let canvas = document.createElement('canvas');

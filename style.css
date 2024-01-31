@@ -428,36 +428,59 @@ button.p-active {
     max-width: 600px;
 }
 
-#main_container {
-    position: relative;
-    top: -509px;
-    max-width: 900px;
-    margin: 0 auto;
-}
-
 #upload {
+    position: absolute;
     max-width: 400px;
+    top: 138px;
+    left: 0;
+    right: 0;
+    margin: auto;
 }
 
 
 #uploadProgress {
     max-width: 300px;
+    position: absolute;
+    top: 188px;
+    left: 0;
+    right: 0;
+    margin: auto;
 }
 
 #imagePreviewWindow {
     max-width: 740px;
+    position: absolute;
+    top: 9%;
+    left: -20%;
+    right: 0;
+    margin: auto;
 }
 
 #filmstripPreviewWindow {
+    position: absolute;
     max-width: 1280px;
+    top: 40%;
+    left: 0;
+    right: 0;
+    margin: auto;
 }
 
 #contactSheetWindow {
     max-width: 800px;
+    position: absolute;
+    top: 1%;
+    left: -10%;
+    right: 0;
+    margin: auto;
 }
 
 #todoWindow {
+    position: absolute;
     max-width: 200px;
+    top: 9%;
+    left: 40%;
+    right: 0;
+    margin: auto
 }
 
 @media (max-width: 600px) {
@@ -597,3 +620,23 @@ img.start-bar-icon {
     box-shadow: inset 1px 1px silver;
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAG0lEQVQYV2M8cODAf3t7ewbG/////z948CADAFuqCj64BtLKAAAAAElFTkSuQmCC);
 }
+
+
+div::-webkit-scrollbar {
+    width: 1em;
+  }
+  
+  div::-webkit-scrollbar-track {
+    /* border-radius: 10px; */
+    /* -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); */
+  }
+  
+  div::-webkit-scrollbar-thumb {
+    /* border-radius: 10px;
+    background-color: #00bd86;
+    outline: 2px solid slategrey; */
+  }
+  
+  /* div::-webkit-scrollbar:vertical {
+    display: none;
+  } */
