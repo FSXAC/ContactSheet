@@ -2,7 +2,8 @@
 let images = [];
 
 let FONTS = {
-    vcd: null
+    vcd: null,
+    sans: 'sans-serif',
 };
 
 function randrange(min, max) {
@@ -22,7 +23,7 @@ function refreshImages() {
     console.log(images);
 }
 
-function addTopLineText(fs, text, size_mm, margin_top_mm, interval_mm, offset_mm, textfont="sans-serif") {
+function addTopLineText(fs, text, size_mm, margin_top_mm, interval_mm, offset_mm, textfont="sans-serif", text_color=FILM_BORDER_COLOR) {
     if (interval_mm <= 0) {
         interval_mm = SHOT_WIDTH_MM + HPADDING_MM;
     }
@@ -32,7 +33,7 @@ function addTopLineText(fs, text, size_mm, margin_top_mm, interval_mm, offset_mm
     let interval_px = interval_mm * SCALE;
     let offset_px = offset_mm * SCALE;
 
-    fs.fill(FILM_BORDER_COLOR);
+    fs.fill(text_color);
     fs.noStroke();
     fs.textSize(size_px);
     fs.textAlign(LEFT, TOP);
@@ -70,7 +71,9 @@ function addBottomLine(
     fc2_tri_margin_mm = 0.8,
     fc2_tri_hoffset_mm = -2.1,
     fc2_tri_inner_color = FILM_BORDER_COLOR,
+    hoffset_perc = 0,
     draw_dx_code = true,
+    dx_num = 17534,
     dx_code_width_mm = 12,
     dx_code_height_mm = 2,
     ) {
@@ -90,11 +93,11 @@ function addBottomLine(
     let FW = SHOT_WIDTH_PX + HPADDING_PX;
 
     // random offset to the left, [0.2FW, 0.7FW]
-    let RANDOM_OFFSET = Math.random() * 0.5 * FW + 0.2 * FW;
-    let MAX_WIDTH = fs.width + RANDOM_OFFSET;
+    let h_offset_px = hoffset_perc * FW;
+    let MAX_WIDTH = fs.width + h_offset_px;
 
     fs.push();
-    fs.translate(-RANDOM_OFFSET, 0);
+    fs.translate(-h_offset_px, 0);
 
     // draw frame count
     fs.fill(FILM_BORDER_COLOR);
@@ -103,6 +106,9 @@ function addBottomLine(
     fs.textAlign(CENTER, BOTTOM);
     for (let x = 0, fc = fc_start; x < MAX_WIDTH; x += FW, fc++) {
         fs.text(frameCountToString(fc), x, fs.height - fc_margin_px);
+        
+        // also add one on top (TODO: make option)
+        fs.text(frameCountToString(fc), x, SPROCKET_HOLE_MARGIN_PX);
     }
 
     // draw frame count 2
@@ -133,7 +139,6 @@ function addBottomLine(
     fs.fill(FILM_BORDER_COLOR);
     fs.noStroke();
     let framenum = fc_start * 2;
-    let dx_num = 17534;
     for (let x = 0; x < MAX_WIDTH; x += FW) {
         // fs.rect(x + delta_x1, fs.height - dx_code_height_px, dx_code_width_px, dx_code_height_px);
         // fs.rect(x + delta_x2, fs.height - dx_code_height_px, dx_code_width_px, dx_code_height_px);
@@ -159,15 +164,47 @@ function renderFilmstrip(images) {
     fs.background(0);
 
     // draw film border
-    addTopLineText(fs, "ILFORD HP5 PLUS", 2.1, 0, 37.87, 12, FONTS.vcd);
-    addTopLineText(fs, "5535-12", 1.0, 0.3, 113.61, 35, FONTS.vcd);
-    addBottomLine(fs);
+    // Illford HP5 Plus
+    // addTopLineText(fs, "ILFORD HP5 PLUS", 2.1, 0, 37.87, 12, FONTS.vcd);
+    // addTopLineText(fs, "5535-12", 1.0, 0.3, 113.61, 35, FONTS.vcd);
+    // addBottomLine(fs);
+
+    // Fuji
+    SPROKET_HOLE_COLOR = '#000';
+    SPROKET_HOLE_STROKE_COLOR = '#d82a'
+    FILM_BORDER_COLOR = '#ea2'
+    addTopLineText(fs, "FUJI 400", 2.1, 0, 37.87, 6, FONTS.sans);
+    addBottomLine(fs, fc_start=-2,
+        fc_size_mm=2,
+        fc_margin_mm=0.1,
+        fc2_size_mm=1.4,
+        fc2_margin_mm=0,
+        fc2_hoffset_mm=1.2,
+        fc2_tri_width_mm = 1.5,
+        fc2_tri_height_mm = 0.8,
+        fc2_tri_margin_mm = 0.8,
+        fc2_tri_hoffset_mm = -2.1,
+        fc2_tri_inner_color = FILM_BORDER_COLOR,
+        hoffset_perc = 0,
+        draw_dx_code = true,
+        dx_num = 6284,
+        dx_code_width_mm = 12,
+        dx_code_height_mm = 2);
+    // addTopLineText(fs, "P0958014", 2.1, 0, 9999, 24, FONTS.vcd, '#811');
+
+    // Apply glow effect
+    // let fs_blur = createGraphics(fs.width, fs.height);
+    // fs_blur.copy(fs, 0, 0, fs.width, fs.height, 0, 0, fs.width, fs.height);
+    // fs_blur.filter(ERODE);
+    // fs.blend(fs_blur, 0, 0, fs.width, fs.height, 0, 0, fs.width, fs.height, EXCLUSION);
+    
 
     // draw sprocket holes
     let dx = SPROCKET_HOLE_WIDTH_PX + SPROCKET_HOLE_SPACING_WIDTH_PX;
     let start_x = Math.random() * 0.5 * dx; // Generate random value between 0 and 0.5 times dx
     fs.fill(SPROKET_HOLE_COLOR);
     fs.stroke(SPROKET_HOLE_STROKE_COLOR);
+    fs.strokeWeight(0.5);
     for (let x = start_x; x < fs_width; x += dx) {
         fs.rect(x, SPROCKET_HOLE_MARGIN_PX, SPROCKET_HOLE_WIDTH_PX, SPROCKET_HOLE_HEIGHT_PX, SPROCKET_HOLE_ROUNDING_PX);
         fs.rect(x, fs_height - SPROCKET_HOLE_MARGIN_PX - SPROCKET_HOLE_HEIGHT_PX, SPROCKET_HOLE_WIDTH_PX, SPROCKET_HOLE_HEIGHT_PX, SPROCKET_HOLE_ROUNDING_PX);
@@ -185,10 +222,11 @@ function renderFilmstrip(images) {
     return fs;
 }
 
-function renderContactSheet(filmstrip, num_cols, padding_mm) {
+function renderContactSheet(filmstrip, num_cols, padding_mm, strip_spacing_mm=1.5) {
     let padding_px = padding_mm * SCALE;
+    let strip_spacing_px = strip_spacing_mm * SCALE;
     let cs_width = num_cols * (SHOT_WIDTH_PX + HPADDING_PX) - HPADDING_PX + 2 * padding_px;
-    let cs_height = Math.ceil(images.length / num_cols) * filmstrip.height + 2 * padding_px;
+    let cs_height = Math.ceil(images.length / num_cols) * (filmstrip.height + strip_spacing_px) - strip_spacing_px + 2 * padding_px;
     let cs = createGraphics(cs_width, cs_height);
 
     cs.background(0);
@@ -199,7 +237,7 @@ function renderContactSheet(filmstrip, num_cols, padding_mm) {
     for (let i = 0, j = 0; i < images.length; i += num_cols, j++) {
         let start_x = padding_px + randrange(0.2, 0.8) * HPADDING_PX;
         let x = j * num_cols * (SHOT_WIDTH_PX + HPADDING_PX) + HPADDING_PX;
-        let y = j * filmstrip.height;
+        let y = j * (filmstrip.height + strip_spacing_px);
         cs.image(filmstrip, start_x - x, y);
     }
     cs.pop();

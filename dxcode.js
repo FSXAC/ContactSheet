@@ -98,7 +98,7 @@ function drawDX(dx, frameNum) {
     let dxImage = createGraphics(bit_width * 31, bit_height * 2);
     dxImage.noStroke();
     dxImage.background(0);
-    dxImage.fill(255);
+    dxImage.fill(FILM_BORDER_COLOR);
     
     // dxImage.stroke(255);
     dxImage.noStroke();
