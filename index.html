@@ -288,6 +288,7 @@
     <script src="filmstock_properties.js"></script>
     <script src="dxcode.js"></script>
     <script src="contact_sheet.js"></script>
+    <script src="image_loader.js"></script>
     <script>
         function welcome_start() {
             // set welcome button to active state by adding pseudo class
@@ -349,13 +350,22 @@
             document.getElementById("contactSheetWindow").classList.add("hidden");
         }
 
-        window.addEventListener("DOMContentLoaded", (event) => {
-            console.log("DOM fully loaded and parsed");
+        // window.addEventListener("DOMContentLoaded", (event) => {
+        //     console.log("DOM fully loaded and parsed");
+        //     addUploaderEventListener();
+        // });
+        // addUploaderEventListener();
+
+        if (document.readyState !== 'loading') {
+            console.log('document is already ready, just execute code here');
             addUploaderEventListener();
-        });
-        addUploaderEventListener();
+        } else {
+            document.addEventListener('DOMContentLoaded', function () {
+                console.log('document was not ready, place code here');
+                addUploaderEventListener();
+            });
+        }
     </script>
-    <script src="image_loader.js"></script>
 
 </body>
 
