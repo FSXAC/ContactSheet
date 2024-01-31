@@ -1,4 +1,4 @@
-document.getElementById('imageFolderInput').addEventListener('change', function(event) {
+document.getElementById('uploadImageButton').addEventListener('change', function(event) {
     let files = Array.from(event.target.files);
     let preview = document.getElementById('imagePreview');
     preview.innerHTML = '';
@@ -36,6 +36,9 @@ document.getElementById('imageFolderInput').addEventListener('change', function(
 
                     // enable preview
                     previewDraw();
+
+                    // enable ok button remove 'disabled' attribute
+                    document.getElementById('uploadOKButton').removeAttribute('disabled');
                 }
             };
             img.src = e.target.result;

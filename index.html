@@ -26,7 +26,10 @@
           </div>
         </div>
         <div class="window-body">
-            <img src="cover.png" style="width:100%" alt="">
+            <div class="mb-4">
+                <img src="cover.png" style="width:100%" alt="">
+                <span style="float: right">Original image by Muchen He</span>
+            </div>
             <p>
                 This utility generates a filmic contact sheet from a folder of pictures with realistic
                 film borders, DX codes, and frame counters. 
@@ -34,6 +37,7 @@
                 Future versions will include more film stocks and options for output resolution.
                 Web theme is inspired by the retro Windows 98 using <a href="https://jdan.github.io/98.css/#components">98.css</a>.
                 Render of filmstrip and contact sheet is done using <a href="https://p5js.org/">p5.js</a>.
+                Windows 98 icons by <a href="https://win98icons.alexmeub.com/">Alex Meub</a>.
                 This work is licensed under <a href="LICENSE">the MIT License</a>.
             </p>
             <p>Made with &lt;3 by <a href="https://muchen.ca">Muchen</a>.</p>
@@ -66,11 +70,44 @@
                 <p>For best results, use a folder of images with a consistent aspect ratio (3:2) and keep number of images between 12 to 40.</p>
                 <p>No images will be uploaded to the server. All processing is done locally in your browser.</p>
             </div>
-            <input type="file" id="imageFolderInput" webkitdirectory mozdirectory msdirectory odirectory directory multiple/>
+            <input type="file" id="uploadImageButton" webkitdirectory mozdirectory msdirectory odirectory directory multiple/>
             <section class="field-row">
-                <button id="uploadButton" class="btn btn-primary" onclick="uploadImages()" disabled>OK</button>
+                <button id="uploadOKButton" class="btn btn-primary" onclick="uploadImages()" disabled>OK</button>
             </section>
         </div>  
+    </div>
+
+    <div class="window" id="uploadProgress">
+        <div class="title-bar">
+            <div class="title-bar-text">Processing</div>
+        </div>
+        <div class="window-body">
+            <p>Processing images...</p>
+            <p id="uploadProgressText" class="progress-bar-text">0%</p>
+            <div class="progress">
+                <div id="uploadProgressBar" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+
+            <script>
+                // test progress bar
+                // run when document is ready
+                document.addEventListener("DOMContentLoaded", function() {
+                    var elem = document.getElementById("uploadProgressBar");
+                    var elemText = document.getElementById("uploadProgressText");
+                    var width = 0;
+                    var id = setInterval(frame, 10);
+                    function frame() {
+                        if (width >= 100) {
+                            width = 0;
+                        } else {
+                            width++;
+                            elem.style.width = width + "%";
+                            elemText.innerHTML = width + "%";
+                        }
+                    }
+                });
+            </script>
+        </div>
     </div>
 
 

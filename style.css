@@ -170,6 +170,11 @@ button.p-active {
     max-width: 400px;
 }
 
+
+#uploadProgress {
+    max-width: 300px;
+}
+
 @media (max-width: 600px) {
     #welcome {
         max-width: 100%;
@@ -177,4 +182,25 @@ button.p-active {
     #main_container {
         width: 100%;
     }
+}
+
+.progress {
+    background-color: #fff;
+    height: 1rem;
+    width: 100%;
+}
+
+.progress-bar {
+    background-color: #132A7A;
+    height: 1rem;
+    width: 0;
+    text-align: center;
+}
+
+.progress-bar span {
+    color: #fff;
+    font-size: 0.8rem;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
