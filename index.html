@@ -6,73 +6,122 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Sheet Generator</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-    <style>
-        #imagePreview img {
-            width: 50px;
-            height: auto;
-            margin: 5px;
-        }
-
-        .disabled {
-            pointer-events: none;
-            opacity: 0.4;
-        }
-
-        #p5canvas {
-            display: none;
-        }
-
-        #contactsheetimg {
-            width: 100%;
-        }
-    </style>
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="https://unpkg.com/98.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="container">
-        <h1 class="mt-5">Contact Sheet Generator</h1>
-        <p>This tool generates a contact sheet from a folder of images with realistic
-            film borders.</p>
-        <p>It is currently in development, version 0.0. Made by <a href="https://muchen.ca">Muchen</a>.</p>
-        <p>To use, upload a folder of pictures (recommended between 12-40). You'll get a image preview once all images are done loading. Click the "Preview" button to preview the filmstrip.</p>
 
-        <h3 class="mt-4">Image uploads</h3>
-        <input type="file" id="imageFolderInput" webkitdirectory mozdirectory msdirectory odirectory directory multiple
-            class="btn btn-primary" />
-
-        <h3 class="mt-4">Image previews</h3>
-        <div id="imagePreview" class="my-4 disabled">
-            <p>No images</p>
+    <div id="welcome" class="window mt-5 mx-auto" style="width: 600px">
+        <div class="title-bar">
+        
+          <div class="title-bar-text">
+            <img src="kodak_imaging-1.png"><span class="padded">ContactSheet Generator v0.1</span>
         </div>
+          <div class="title-bar-controls">
+            <!-- <button aria-label="Minimize"></button>
+            <button aria-label="Maximize"></button> -->
+            <button aria-label="Close"></button>
+          </div>
+        </div>
+        <div class="window-body">
+            <img src="cover.png" style="width:100%" alt="">
+            <p>
+                This utility generates a filmic contact sheet from a folder of pictures with realistic
+                film borders, DX codes, and frame counters. 
+                Film stock properties are based on real film stocks.
+                Future versions will include more film stocks and options for output resolution.
+                Web theme is inspired by the retro Windows 98 using <a href="https://jdan.github.io/98.css/#components">98.css</a>.
+                Render of filmstrip and contact sheet is done using <a href="https://p5js.org/">p5.js</a>.
+                This work is licensed under <a href="LICENSE">the MIT License</a>.
+            </p>
+            <p>Made with &lt;3 by <a href="https://muchen.ca">Muchen</a>.</p>
+            <p>Click the "Let's Go" button to start.</p>
 
-        <h3 class="mt-4">Filmstrip preview</h3>
-        <div id="filmstripPreview" class="mt-4 disabled">
+            <!-- <marquee behavior="scroll" direction="left" scrollamount="3" class="mb-1">
+                Welcome to the future of the web! This is a test of the emergency broadcast 
+                system. You've got mail! Welcome to the world wide web!
+                You are the 1,000,000th visitor! Click here to claim your prize!
+                Peanut butter jelly time! All your base are belong to us!
+            </marquee> -->
+            <section class="field-row">
+                <button id="welcome-button" onclick="welcome_start()">Let's Go</button>
+            </section>
+        </div>
+    </div>
+
+    <div class="window" id="upload">
+        <div class="title-bar">
+            <div class="title-bar-text">Load Images</div>
+            <div class="title-bar-controls">
+                <button aria-label="Help"></button>
+                <button onclick="reset()" aria-label="Close"></button>
+            </div>
+        </div>
+        <div class="window-body">
+            <p>"Upload" a folder of images to generate a contact sheet.</p>
             <div class="my-3">
-                <button id="refreshButton" class="btn btn-secondary" onclick="refreshImages()">Refresh</button>
-                <button id="previewButton" class="btn btn-secondary" onclick="previewDraw()">Preview</button>
+                <img src="msg_information-0.png" alt="" style="float: left" class="mr-1">
+                <p>For best results, use a folder of images with a consistent aspect ratio (3:2) and keep number of images between 12 to 40.</p>
+                <p>No images will be uploaded to the server. All processing is done locally in your browser.</p>
             </div>
-            <div class="pb-2" style="overflow-x: scroll;">
-                <img src="#" alt="" id="filmstripimg">
+            <input type="file" id="imageFolderInput" webkitdirectory mozdirectory msdirectory odirectory directory multiple/>
+            <section class="field-row">
+                <button id="uploadButton" class="btn btn-primary" onclick="uploadImages()" disabled>OK</button>
+            </section>
+        </div>  
+    </div>
+
+
+    <div id="main_container" class="hidden">
+        <div class="window">
+            <div class="title-bar">
+                <div class="title-bar-text">A Complete Window</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize"></button>
+                    <button aria-label="Maximize"></button>
+                    <button onclick="reset()" aria-label="Close"></button>
+                </div>
             </div>
-            <canvas class="my-3" id="p5canvas"></canvas>
-        </div>
+            <div class="window-body">
+                <h3 class="mt-4">Image uploads</h3>
+                <input type="file" id="imageFolderInput" webkitdirectory mozdirectory msdirectory odirectory directory multiple
+                    class="btn btn-primary" />
 
-        <h3 class="mt-4">Contact Sheet</h3>
-        <div>
-            <img src="#" alt="" id="contactsheetimg">
-        </div>
+                <h3 class="mt-4">Image previews</h3>
+                <div id="imagePreview" class="my-4 disabled">
+                    <p>No images</p>
+                </div>
 
-        <h3 class="mt-4">To-dos</h3>
-        <ul>
-            <li>Add loading/progress bars</li>
-            <li>Add options for output resolution</li>
-            <li>Add other film stocks</li>
-            <li>Add togglable options</li>
-            <li>Make this run faster</li>
-            <li>UI/UX design</li>
-        </ul>
+                <h3 class="mt-4">Filmstrip preview</h3>
+                <div id="filmstripPreview" class="mt-4 disabled">
+                    <div class="my-3">
+                        <button id="refreshButton" class="btn btn-secondary" onclick="refreshImages()">Refresh</button>
+                        <button id="previewButton" class="btn btn-secondary" onclick="previewDraw()">Preview</button>
+                    </div>
+                    <div class="pb-2" style="overflow-x: scroll;">
+                        <img src="#" alt="" id="filmstripimg">
+                    </div>
+                    <canvas class="my-3" id="p5canvas"></canvas>
+                </div>
+
+                <h3 class="mt-4">Contact Sheet</h3>
+                <div>
+                    <img src="#" alt="" id="contactsheetimg">
+                </div>
+
+                <h3 class="mt-4">To-dos</h3>
+                <ul>
+                    <li>Add loading/progress bars</li>
+                    <li>Add options for output resolution</li>
+                    <li>Add other film stocks</li>
+                    <li>Add togglable options</li>
+                    <li>Make this run faster</li>
+                    <li>UI/UX design</li>
+                </ul>
+            </div>
+        </div>
     </div>
 
     <!-- Bootstrap JS -->
@@ -87,6 +136,34 @@
     <script src="filmstock_properties.js"></script>
     <script src="dxcode.js"></script>
     <script src="contact_sheet.js"></script>
+    <script>
+        function welcome_start() {
+            // set welcome button to active state by adding pseudo class
+            // document.getElementById("welcome-button").classList.add("active");
+            document.getElementById("welcome-button").classList.add("p-active");
+            // set mouse cursor to loading
+            document.body.style.cursor = "wait";
+            load_p5_resources();
+            setTimeout(() => {
+                document.getElementById("welcome").classList.add("inactive");
+                document.getElementById("main_container").classList.remove("hidden");
+                document.getElementById("welcome-button").classList.remove("p-active");
+                document.body.style.cursor = "default";
+            }, 5000);
+            // document.getElementById("welcome").classList.add("inactive");
+            // document.getElementById("main_container").classList.remove("hidden");
+        }
+
+        function reset() {
+            document.getElementById("main_container").classList.add("hidden");
+            document.getElementById("welcome").classList.remove("inactive");
+        }
+    </script>
+
+</body>
+
+</html>
+    </script>
 
 </body>
 

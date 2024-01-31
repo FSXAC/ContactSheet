@@ -121,5 +121,3 @@ function drawDX(dx, frameNum) {
     
     return dxImage
 }
-
-console.log(CLK_TRACK);

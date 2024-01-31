@@ -269,7 +269,7 @@ function previewDraw() {
 }
 
 
-function preload() {
+function load_p5_resources() {
     FONTS.vcd = loadFont('VCD_OSD_MONO.ttf');
 }
 
