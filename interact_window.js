@@ -5,6 +5,7 @@ const imagePreview_position = { x: 0, y: 0 }
 const filmstripPreview_position = { x: 0, y: 0 }
 const contactSheet_position = { x: 0, y: 0 }
 const todo_position = { x: 0, y: 0 }
+const filmSelect_position = { x: 0, y: 0 }
 
 interact('#welcome').draggable({
     listeners: {
@@ -86,6 +87,18 @@ interact('#todoWindow').draggable({
             todo_position.y += event.dy
             event.target.style.transform =
                 `translate(${todo_position.x}px, ${todo_position.y}px)`
+            },
+    },
+    cursorChecker () { return null }
+})
+
+interact('#filmSelectWindow').draggable({
+    listeners: {
+        move (event) {
+            filmSelect_position.x += event.dx
+            filmSelect_position.y += event.dy
+            event.target.style.transform =
+                `translate(${filmSelect_position.x}px, ${filmSelect_position.y}px)`
             },
     },
     cursorChecker () { return null }
