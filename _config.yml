@@ -1,0 +1,78 @@
+# Build config
+incremental: false
+
+# Site config
+title: "ContactSheet"
+description: "35mm contact sheet generator"
+url: https://www.muchen.ca/ContactSheet
+author: Muchen He
+social:
+  name: Muchen He
+  links:
+    - https://github.com/FSXAC
+    - https://instagram.com/muchen.he
+
+# Paginate blog
+# paginate: 8
+# paginate_path: "/blog/page:num/"
+
+# Markdown settings
+markdown: kramdown
+kramdown:
+  auto_ids: true
+  enable_coderay: false
+  hard_wrap: false
+  input: GFM
+
+# Styling
+# sass:
+#   style: compressed
+
+# Plugins
+# plugins:
+#   - jekyll-sitemap
+#   - jekyll-seo-tag
+#   - jekyll-feed
+#   - jekyll-paginate
+
+# exclude:
+#   - archive/
+
+# Defaults
+# defaults:
+#   - scope: # default for everything across the site
+#       path: ""
+#     values:
+#       show_navigation: true
+#       show_footer: true
+#   - scope: # stuff under _posts folder
+#       path: ""
+#       type: "posts"
+#     values:
+#       layout: doc
+#       excerpt_separator: <!-- excerpt -->
+#       nav_active: /blog
+#       permalink: "/blog/:year/:title/"
+#   - scope:
+#       path: "documents"
+#     values:
+#       layout: doc
+#       nav_active: /documents
+      # use_category_instead_of_name: true
+      # show_footer: false
+  # - scope:
+  #     path: "documents/CPEN212"
+  #   values:
+  #     image: "documents/CPEN212/assets/teaser.jpg"
+  # - scope:
+  #     type: "photos"
+  #   values:
+  #     layout: photo
+  #     nav_active: /photos
+
+# Collections config
+# collections:
+#   photos:
+#     output: true
+
+use_image_as_brand: false
