@@ -1,0 +1,95 @@
+function welcome_start() {
+    // set welcome button to active state by adding pseudo class
+    // document.getElementById("welcome-button").classList.add("active");
+    document.getElementById("welcome-button").classList.add("p-active");
+    
+    // set mouse cursor to loading
+    document.body.style.cursor = "wait";
+    load_p5_resources();
+
+    setTimeout(() => {
+        
+        // document.getElementById("welcome").classList.add("inactive");
+        document.getElementById("upload").classList.remove("hidden");
+        document.getElementById("welcome-button").classList.remove("p-active");
+        document.body.style.cursor = "default";
+    }, 400);
+}
+
+function displayTodo() {
+    document.getElementById("todoWindow").classList.remove("hidden");
+}
+
+function reset() {
+    document.getElementById("upload").classList.add("hidden");
+    document.getElementById("uploadProgress").classList.add("hidden");
+    document.getElementById("imagePreviewWindow").classList.add("hidden");
+    document.getElementById("filmstripPreviewWindow").classList.add("hidden");
+    document.getElementById("contactSheetWindow").classList.add("hidden");
+    document.getElementById("todoWindow").classList.add("hidden");
+}
+
+function startLoad() {
+    document.getElementById("uploadProgress").classList.remove("hidden");
+}
+
+function finishLoad() {
+    document.getElementById("uploadProgress").classList.add("hidden");
+    document.getElementById("upload").classList.add("hidden");
+    document.getElementById("imagePreviewWindow").classList.remove("hidden");
+}
+
+function showFilmstrip() {
+    document.getElementById("filmstripPreviewWindow").classList.remove("hidden");
+}
+
+function hideFilmstrip() {
+    document.getElementById("filmstripPreviewWindow").classList.add("hidden");
+}
+
+function showContactSheet() {
+    document.getElementById("contactSheetWindow").classList.remove("hidden");
+}
+
+function hideContactSheet() {
+    document.getElementById("contactSheetWindow").classList.add("hidden");
+}
+
+// MARK: js check if document is ready
+if (document.readyState !== 'loading') {
+    console.log('document is already ready, just execute code here');
+    addUploaderEventListener();
+} else {
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log('document was not ready, place code here');
+        addUploaderEventListener();
+    });
+}
+
+// MARK: interact.js
+const ids = ["welcome", "upload", "uploadProgress", "imagePreviewWindow", 
+    "filmstripPreviewWindow", "contactSheetWindow", "todoWindow", "filmSelectWindow"];
+
+let window_positions = {};
+function setup_interactive_window(id) {
+    window_positions[id] = {x: 0, y: 0}
+    interact(`#${id}`).draggable({
+        listeners: {
+            move (event) {
+                window_positions[id].x += event.dx
+                window_positions[id].y += event.dy
+                event.target.style.transform =
+                    `translate(${window_positions[id].x}px, ${window_positions[id].y}px)`
+                },
+        },
+        cursorChecker () { return null },
+        ignoreFrom: '.window-body'
+    })
+}
+
+// run when document is ready
+document.addEventListener('DOMContentLoaded', function () {
+    ids.forEach(id => {
+        setup_interactive_window(id);
+    });
+});

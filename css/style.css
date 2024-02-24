@@ -586,13 +586,6 @@ img.start-bar-icon {
     color: #000;
 }
 
-.start-button {
-    background-image: url(start-button.png);
-    background-repeat: no-repeat;
-    width: 45px;
-    height: 14px;
-}
-
 .start-bar-window {
     float: left;
     padding: 0 10px 0 6px;
