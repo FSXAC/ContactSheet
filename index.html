@@ -51,7 +51,7 @@
 		</div>
     </div>
 
-    <div id="welcome" class="window mt-5 mx-auto" style="width: 600px">
+    <div id="welcome" class="window mt-5 mx-auto draggable" style="width: 600px">
         <div class="title-bar">
         
           <div class="title-bar-text">
@@ -94,7 +94,7 @@
         </div>
     </div>
 
-    <div class="window hidden" id="upload">
+    <div class="window hidden draggable" id="upload">
         <div class="title-bar">
             <div class="title-bar-text">Load Images</div>
             <div class="title-bar-controls">
@@ -115,7 +115,7 @@
         </div>  
     </div>
 
-    <div class="window hidden" id="uploadProgress">
+    <div class="window hidden draggable" id="uploadProgress">
         <div class="title-bar">
             <div class="title-bar-text">Processing</div>
         </div>
@@ -149,7 +149,7 @@
         </div>
     </div>
 
-    <div class="window hidden" id="imagePreviewWindow">
+    <div class="window hidden draggable" id="imagePreviewWindow">
         <div class="title-bar">
             <div class="title-bar-text">Image Preview</div>
                 <div class="title-bar-controls">
@@ -173,7 +173,7 @@
             
     </div>
 
-    <div class="window hidden" id="filmstripPreviewWindow">
+    <div class="window hidden draggable" id="filmstripPreviewWindow">
         <div class="title-bar">
             <div class="title-bar-text">Filmstrip Preview</div>
                 <div class="title-bar-controls">
@@ -198,7 +198,7 @@
         </div>
     </div>
 
-    <div class="window hidden" id="contactSheetWindow">
+    <div class="window hidden draggable" id="contactSheetWindow">
         <div class="title-bar">
             <div class="title-bar-text">Contact Sheet</div>
                 <div class="title-bar-controls">
@@ -214,12 +214,10 @@
 
 
     <!-- todo -->
-    <div class="window hidden" id="todoWindow">
+    <div class="window hidden draggable" id="todoWindow">
         <div class="title-bar">
             <div class="title-bar-text">To Do</div>
                 <div class="title-bar-controls">
-                <button aria-label="Minimize"></button>
-                <button aria-label="Maximize"></button>
                 <button onclick="reset()" aria-label="Close"></button>
             </div>
         </div>
@@ -229,7 +227,8 @@
                     <ul>
                         <li><del>Add loading/progress bars</del></li>
                         <li><del>Make it look more like Windows 98 (retro)</del></li>
-                        <li>Add fun decorations like Win98 desktop</li>
+                        <li><del>Add fun decorations like Win98 desktop</del></li>
+                        <li><del>Draggable windows!</del></li>
                         <li>Improve user flow</li>
                     </ul>
                 </li>
@@ -280,6 +279,7 @@
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <!-- p5.js -->
@@ -289,6 +289,7 @@
     <script src="dxcode.js"></script>
     <script src="contact_sheet.js"></script>
     <script src="image_loader.js"></script>
+    <script src="interact_window.js"></script>
     <script>
         function welcome_start() {
             // set welcome button to active state by adding pseudo class
