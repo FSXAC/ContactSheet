@@ -270,7 +270,7 @@ function previewDraw() {
 
 
 function load_p5_resources() {
-    FONTS.vcd = loadFont('VCD_OSD_MONO.ttf');
+    FONTS.vcd = loadFont('assets/VCD_OSD_MONO.ttf');
 }
 
 function setup() {
