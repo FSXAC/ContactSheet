@@ -16,7 +16,8 @@ interact('#welcome').draggable({
                 `translate(${welcome_position.x}px, ${welcome_position.y}px)`
             },
     },
-    cursorChecker () { return null }
+    cursorChecker () { return null },
+    ignoreFrom: '.window-body'
 })
 
 
@@ -29,7 +30,8 @@ interact('#upload').draggable({
                 `translate(${upload_position.x}px, ${upload_position.y}px)`
             },
     },
-    cursorChecker () { return null }
+    cursorChecker () { return null },
+    ignoreFrom: '.window-body'
 })
 
 interact('#uploadProgress').draggable({
@@ -41,7 +43,8 @@ interact('#uploadProgress').draggable({
                 `translate(${uploadProgress_position.x}px, ${uploadProgress_position.y}px)`
             },
     },
-    cursorChecker () { return null }
+    cursorChecker () { return null },
+    ignoreFrom: '.window-body'
 })
 
 interact('#imagePreviewWindow').draggable({
@@ -53,7 +56,8 @@ interact('#imagePreviewWindow').draggable({
                 `translate(${imagePreview_position.x}px, ${imagePreview_position.y}px)`
             },
     },
-    cursorChecker () { return null }
+    cursorChecker () { return null },
+    ignoreFrom: '.window-body'
 })
 
 interact('#filmstripPreviewWindow').draggable({
@@ -65,7 +69,8 @@ interact('#filmstripPreviewWindow').draggable({
                 `translate(${filmstripPreview_position.x}px, ${filmstripPreview_position.y}px)`
             },
     },
-    cursorChecker () { return null }
+    cursorChecker () { return null },
+    ignoreFrom: '.window-body'
 })
 
 interact('#contactSheetWindow').draggable({
@@ -77,7 +82,8 @@ interact('#contactSheetWindow').draggable({
                 `translate(${contactSheet_position.x}px, ${contactSheet_position.y}px)`
             },
     },
-    cursorChecker () { return null }
+    cursorChecker () { return null },
+    ignoreFrom: '.window-body'
 })
 
 interact('#todoWindow').draggable({
@@ -89,7 +95,8 @@ interact('#todoWindow').draggable({
                 `translate(${todo_position.x}px, ${todo_position.y}px)`
             },
     },
-    cursorChecker () { return null }
+    cursorChecker () { return null },
+    ignoreFrom: '.window-body'
 })
 
 interact('#filmSelectWindow').draggable({
@@ -101,5 +108,6 @@ interact('#filmSelectWindow').draggable({
                 `translate(${filmSelect_position.x}px, ${filmSelect_position.y}px)`
             },
     },
-    cursorChecker () { return null }
+    cursorChecker () { return null },
+    ignoreFrom: '.window-body'
 })
