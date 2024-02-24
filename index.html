@@ -173,6 +173,32 @@
             
     </div>
 
+    <div class="window" id="filmSelectWindow" style="width: 800px;">
+        <div class="title-bar">
+            <div class="title-bar-text">Filmstrip Settings</div>
+                <div class="title-bar-controls">
+                <button aria-label="Minimize"></button>
+                <button aria-label="Maximize"></button>
+                <button onclick="hideFilmstrip()" aria-label="Close"></button>
+            </div>
+        </div>
+        <div class="window-body">
+            <div class="filmStockSelect pb-2 mb-2">
+                <div class="filmStock active"><img src="filmrolls/fuji400_icon.png" alt=""><p>Fujifilm 400</p></div>
+                <div class="filmStock"><img src="filmrolls/ilfordhp5plus400_icon.png" alt=""><p>Ilford HP5 Plus 400</p></div>
+                <div class="filmStock"><img src="filmrolls/kentmerepan400_icon.png" alt=""><p>Kentmere Pan 400</p></div>
+                <div class="filmStock"><img src="filmrolls/kentmerepan100_icon.png" alt=""><p>Kentmere Pan 100</p></div>
+                <div class="filmStock"><img src="filmrolls/ilfordsfx200_icon.png" alt=""><p>Ilford SFX 200</p></div>
+                <div class="filmStock"><img src="filmrolls/unknown_roll_icon.png" alt=""><p>Ilford Delta 400</p></div>
+                <div class="filmStock"><img src="filmrolls/unknown_roll_icon.png" alt=""><p>Kodak Ultramax 400</p></div>
+                <div class="filmStock"><img src="filmrolls/unknown_roll_icon.png" alt=""><p>Kodak ColorPlus 200</p></div>
+                <div class="filmStock"><img src="filmrolls/unknown_roll_icon.png" alt=""><p>Kodak Gold 200</p></div>
+                <div class="filmStock"><img src="filmrolls/unknown_roll_icon.png" alt=""><p>Kodak Pro Image 100</p></div>
+                
+            </div>
+        </div>
+    </div>
+
     <div class="window hidden draggable" id="filmstripPreviewWindow">
         <div class="title-bar">
             <div class="title-bar-text">Filmstrip Preview</div>
@@ -191,7 +217,7 @@
                     <!-- <p>Tip: use the scroll bar to scoll horizontally</p> -->
                 </div>
                 <div class="pb-2" style="overflow-x: scroll;">
-                    <img src="#" alt="" id="filmstripimg">
+                    <img src="#" alt="" id="filmstripimg" style="max-height: 160px;">
                 </div>
                 <!-- <canvas class="my-3" id="p5canvas"></canvas> -->
             </div>
@@ -278,9 +304,9 @@
 
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
 
     <!-- p5.js -->
     <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.js"></script>

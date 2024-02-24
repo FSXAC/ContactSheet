@@ -640,3 +640,27 @@ div::-webkit-scrollbar {
   /* div::-webkit-scrollbar:vertical {
     display: none;
   } */
+
+  .filmStockSelect {
+    /* width: 100%; */
+    overflow-x: scroll;
+    white-space: nowrap;
+  }
+
+  .filmStockSelect .filmStock {
+    display: inline-block;
+    text-align: center;
+    width: 100px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+
+  .filmStockSelect .filmStock.active {
+    background-color: #132A7A;
+    color: white;
+  }
+
+  .filmStockSelect .filmStock p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
