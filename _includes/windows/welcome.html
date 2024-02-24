@@ -1,0 +1,40 @@
+<div id="welcome" class="window mt-5 mx-auto draggable" style="width: 600px">
+    <div class="title-bar">
+    
+        <div class="title-bar-text">
+        <img src="img/kodak_imaging-1.png"><span class="padded">ContactSheet Generator v{{ site.data.general.version }} </span>
+    </div>
+        <div class="title-bar-controls">
+        <button aria-label="Help" onclick="displayTodo()"></button>
+        <button aria-label="Close"></button>
+        </div>
+    </div>
+    <div class="window-body">
+        <div class="mb-4">
+            <img src="img/cover.png" style="width:100%" alt="">
+            <span style="float: right">Original image by Muchen He</span>
+        </div>
+        <p>
+            This utility generates a filmic contact sheet from a folder of pictures with realistic
+            film borders, DX codes, and frame counters. 
+            Film stock properties are based on real film stocks.
+            Future versions will include more film stocks and options for output resolution.
+            Web theme is inspired by the retro Windows 98 using <a href="https://jdan.github.io/98.css/#components">98.css</a>.
+            Render of filmstrip and contact sheet is done using <a href="https://p5js.org/">p5.js</a>.
+            Windows 98 icons by <a href="https://win98icons.alexmeub.com/">Alex Meub</a>.
+            This work is licensed under <a href="LICENSE">the MIT License</a>.
+        </p>
+        <p>Made with &lt;3 by <a href="https://muchen.ca">Muchen</a>.</p>
+        <p>Click the "Let's Go" button to start.</p>
+
+        <!-- <marquee behavior="scroll" direction="left" scrollamount="3" class="mb-1">
+            Welcome to the future of the web! This is a test of the emergency broadcast 
+            system. You've got mail! Welcome to the world wide web!
+            You are the 1,000,000th visitor! Click here to claim your prize!
+            Peanut butter jelly time! All your base are belong to us!
+        </marquee> -->
+        <section class="field-row">
+            <button id="welcome-button" onclick="welcome_start()">Let's Go</button>
+        </section>
+    </div>
+</div>

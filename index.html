@@ -4,50 +4,9 @@ layout: default
 
 {% include desktop.html %}
 
-<div id="welcome" class="window mt-5 mx-auto draggable" style="width: 600px">
-    <div class="title-bar">
-    
-        <div class="title-bar-text">
-        <img src="img/kodak_imaging-1.png"><span class="padded">ContactSheet Generator v0.1</span>
-    </div>
-        <div class="title-bar-controls">
-        <!-- <button aria-label="Minimize"></button>
-        <button aria-label="Maximize"></button> -->
-        <button aria-label="Help" onclick="displayTodo()"></button>
-        <button aria-label="Close"></button>
-        </div>
-    </div>
-    <div class="window-body">
-        <div class="mb-4">
-            <img src="img/cover.png" style="width:100%" alt="">
-            <span style="float: right">Original image by Muchen He</span>
-        </div>
-        <p>
-            This utility generates a filmic contact sheet from a folder of pictures with realistic
-            film borders, DX codes, and frame counters. 
-            Film stock properties are based on real film stocks.
-            Future versions will include more film stocks and options for output resolution.
-            Web theme is inspired by the retro Windows 98 using <a href="https://jdan.github.io/98.css/#components">98.css</a>.
-            Render of filmstrip and contact sheet is done using <a href="https://p5js.org/">p5.js</a>.
-            Windows 98 icons by <a href="https://win98icons.alexmeub.com/">Alex Meub</a>.
-            This work is licensed under <a href="LICENSE">the MIT License</a>.
-        </p>
-        <p>Made with &lt;3 by <a href="https://muchen.ca">Muchen</a>.</p>
-        <p>Click the "Let's Go" button to start.</p>
+{% include windows/welcome.html %}
 
-        <!-- <marquee behavior="scroll" direction="left" scrollamount="3" class="mb-1">
-            Welcome to the future of the web! This is a test of the emergency broadcast 
-            system. You've got mail! Welcome to the world wide web!
-            You are the 1,000,000th visitor! Click here to claim your prize!
-            Peanut butter jelly time! All your base are belong to us!
-        </marquee> -->
-        <section class="field-row">
-            <button id="welcome-button" onclick="welcome_start()">Let's Go</button>
-        </section>
-    </div>
-</div>
-
-<div class="window hidden draggable" id="upload">
+<div class="window hidden" id="upload">
     <div class="title-bar">
         <div class="title-bar-text">Load Images</div>
         <div class="title-bar-controls">
@@ -62,13 +21,10 @@ layout: default
             <p>No images will be uploaded to the server. All processing is done locally in your browser.</p>
         </div>
         <input type="file" id="uploadImageButton" webkitdirectory mozdirectory msdirectory odirectory directory multiple/>
-        <!-- <section class="field-row">
-            <button id="uploadOKButton" class="btn btn-primary" onclick="uploadImages()" disabled>OK</button>
-        </section> -->
-    </div>  
+    </div>
 </div>
 
-<div class="window hidden draggable" id="uploadProgress">
+<div class="window hidden" id="uploadProgress">
     <div class="title-bar">
         <div class="title-bar-text">Processing</div>
     </div>
@@ -79,30 +35,10 @@ layout: default
         <div class="progress">
             <div id="uploadProgressBar" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-
-        <!-- <script>
-            // test progress bar
-            // run when document is ready
-            document.addEventListener("DOMContentLoaded", function() {
-                var elem = document.getElementById("uploadProgressBar");
-                var elemText = document.getElementById("uploadProgressText");
-                var width = 0;
-                var id = setInterval(frame, 10);
-                function frame() {
-                    if (width >= 100) {
-                        width = 0;
-                    } else {
-                        width++;
-                        elem.style.width = width + "%";
-                        elemText.innerHTML = width + "%";
-                    }
-                }
-            });
-        </script> -->
     </div>
 </div>
 
-<div class="window hidden draggable" id="imagePreviewWindow">
+<div class="window hidden" id="imagePreviewWindow">
     <div class="title-bar">
         <div class="title-bar-text">Image Preview</div>
             <div class="title-bar-controls">
@@ -118,7 +54,6 @@ layout: default
         </div>
 
         <section class="field-row">
-            <!-- TODO: reset 2 -->
             <button id="imagePreviewCancel" onclick="reset()">Start Over</button>
             <button id="imagePreviewProceed" onclick="showFilmstrip()">Continue</button>
         </section>
@@ -126,7 +61,7 @@ layout: default
         
 </div>
 
-<div class="window hidden" id="filmSelectWindow" style="width: 800px;">
+<div class="window" id="filmSelectWindow" style="width: 800px;">
     <div class="title-bar">
         <div class="title-bar-text">Filmstrip Settings</div>
             <div class="title-bar-controls">
@@ -137,22 +72,21 @@ layout: default
     </div>
     <div class="window-body">
         <div class="filmStockSelect pb-2 mb-2">
-            <div class="filmStock active"><img src="filmrolls/fuji400_icon.png" alt=""><p>Fujifilm 400</p></div>
-            <div class="filmStock"><img src="filmrolls/ilfordhp5plus400_icon.png" alt=""><p>Ilford HP5 Plus 400</p></div>
-            <div class="filmStock"><img src="filmrolls/kentmerepan400_icon.png" alt=""><p>Kentmere Pan 400</p></div>
-            <div class="filmStock"><img src="filmrolls/kentmerepan100_icon.png" alt=""><p>Kentmere Pan 100</p></div>
-            <div class="filmStock"><img src="filmrolls/ilfordsfx200_icon.png" alt=""><p>Ilford SFX 200</p></div>
-            <div class="filmStock"><img src="filmrolls/unknown_roll_icon.png" alt=""><p>Ilford Delta 400</p></div>
-            <div class="filmStock"><img src="filmrolls/unknown_roll_icon.png" alt=""><p>Kodak Ultramax 400</p></div>
-            <div class="filmStock"><img src="filmrolls/unknown_roll_icon.png" alt=""><p>Kodak ColorPlus 200</p></div>
-            <div class="filmStock"><img src="filmrolls/unknown_roll_icon.png" alt=""><p>Kodak Gold 200</p></div>
-            <div class="filmStock"><img src="filmrolls/unknown_roll_icon.png" alt=""><p>Kodak Pro Image 100</p></div>
-            
+            {% for film in site.data.filmstocks %}
+            {% if film.enabled == true %}
+            <div class="filmstock {% if film.active %}active{% endif %}" onclick="selectFilmStock('{{ film.id }}')" id="{{ film.id }}">
+            {% else %}
+            <div class="filmstock disabled">
+            {% endif %}
+                <img src="img/filmrolls/{{ film.icon }}" alt="">
+                <p>{{ film.name }}</p>
+            </div>
+            {% endfor %}
         </div>
     </div>
 </div>
 
-<div class="window hidden draggable" id="filmstripPreviewWindow">
+<div class="window hidden" id="filmstripPreviewWindow">
     <div class="title-bar">
         <div class="title-bar-text">Filmstrip Preview</div>
             <div class="title-bar-controls">
@@ -177,7 +111,7 @@ layout: default
     </div>
 </div>
 
-<div class="window hidden draggable" id="contactSheetWindow">
+<div class="window hidden" id="contactSheetWindow">
     <div class="title-bar">
         <div class="title-bar-text">Contact Sheet</div>
             <div class="title-bar-controls">
@@ -193,50 +127,7 @@ layout: default
 
 
 <!-- todo -->
-<div class="window hidden draggable" id="todoWindow">
-    <div class="title-bar">
-        <div class="title-bar-text">To Do</div>
-            <div class="title-bar-controls">
-            <button onclick="reset()" aria-label="Close"></button>
-        </div>
-    </div>
-    <div class="window-body">
-        <ul class="tree-view">
-            <li>Improve UI/UX
-                <ul>
-                    <li><del>Add loading/progress bars</del></li>
-                    <li><del>Make it look more like Windows 98 (retro)</del></li>
-                    <li><del>Add fun decorations like Win98 desktop</del></li>
-                    <li><del>Draggable windows!</del></li>
-                    <li>Improve user flow</li>
-                </ul>
-            </li>
-            <li>
-                Customizable options
-                <ul>
-                    <li>Add options for output resolution</li>
-                    <li>Add other film stocks</li>
-                    <li>Add togglable options</li>
-                    <li>Add fun effects
-                        <ul>
-                            <li>Light leaks</li>
-                            <li>Scratches</li>
-                            <li>Grain</li>
-                            <li>Dusts</li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-
-            <li>Improve performance
-                <ul>
-                    <li>Make this run faster</li>
-                    <li>Clean up code</li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-</div>
+{% include windows/todo.html %}
 
 {% include start-bar.html %}
 

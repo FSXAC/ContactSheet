@@ -55,6 +55,14 @@ function hideContactSheet() {
     document.getElementById("contactSheetWindow").classList.add("hidden");
 }
 
+function selectFilmStock(select_id) {
+    let buttons = document.getElementsByClassName("filmstock");
+    for (let i = 0; i < buttons.length; i++) {
+        buttons[i].classList.remove("active");
+    }
+    document.getElementById(select_id).classList.add("active");
+}
+
 // MARK: js check if document is ready
 if (document.readyState !== 'loading') {
     console.log('document is already ready, just execute code here');

@@ -1,0 +1,69 @@
+- id: fuji-400
+  name: Fujifilm 400
+  icon: "fuji400_icon.png"
+  enabled: true
+  active: true
+- id: ilf-hp5-400
+  name: Ilford HP5 400
+  icon: "ilfordhp5plus400_icon.png"
+  enabled: true
+- id: kentmere-400
+  name: Kentmere Pan 400
+  icon: "kentmerepan400_icon.png"
+  enabled: true
+- id: kentmere-100
+  name: Kentmere Pan 100
+  icon: "kentmerepan100_icon.png"
+- id: ilf-sfx-200
+  name: Ilford SFX 200
+  icon: "ilfordsfx200_icon.png"
+  enabled: true
+- id: ilf-delta-400
+  name: Ilford Delta 400
+  icon: "unknown_roll_icon.png"
+  enabled: true
+- id: ilf-delta-3200
+  name: Ilford Delta 3200
+  icon: "unknown_roll_icon.png"
+- id: ilf-delta-100
+  name: Ilford Delta 100
+  icon: "unknown_roll_icon.png"
+- id: ilf-fp4-125
+  name: Ilford FP4 125
+  icon: "unknown_roll_icon.png"
+- id: ilf-panf-50
+  name: Ilford Pan F 50
+  icon: "unknown_roll_icon.png"
+- id: kodak-ultra-400
+  name: Kodak UltraMax 400
+  icon: "unknown_roll_icon.png"
+- id: kodak-portra-400
+  name: Kodak Portra 400
+  icon: "unknown_roll_icon.png"
+- id: kodak-portra-160
+  name: Kodak Portra 160
+  icon: "unknown_roll_icon.png"
+- id: kodak-tmax-400
+  name: Kodak T-Max 400
+  icon: "unknown_roll_icon.png"
+- id: kodak-tmax-3200
+  name: Kodak T-Max 3200
+  icon: "unknown_roll_icon.png"
+- id: kodak-tmax-100
+  name: Kodak T-Max 100
+  icon: "unknown_roll_icon.png"
+- id: kodak-trix-400
+  name: Kodak Tri-X 400
+  icon: "unknown_roll_icon.png"
+- id: kodak-ektar-100
+  name: Kodak Ektar 100
+  icon: "unknown_roll_icon.png"
+- id: kodak-gold-200
+  name: Kodak Gold 200
+  icon: "unknown_roll_icon.png"
+- id: kodak-colorplus-200
+  name: Kodak ColorPlus 200
+  icon: "unknown_roll_icon.png"
+- id: kodak-proimage-100
+  name: Kodak ProImage 100
+  icon: "unknown_roll_icon.png"
