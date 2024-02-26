@@ -66,7 +66,7 @@ const FILM = {
         'icon': 'fuji400_icon.png',
         'enabled': true,
         'active': true,
-        'dx_code': '906824',
+        'dx_code': '906284',
     },
     'ilf-hp5-400': {
         'name': 'Ilford HP5 400',
