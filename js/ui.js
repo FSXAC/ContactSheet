@@ -75,8 +75,11 @@ if (document.readyState !== 'loading') {
 }
 
 // MARK: interact.js
-const ids = ["welcome", "upload", "uploadProgress", "imagePreviewWindow", 
-    "filmstripPreviewWindow", "contactSheetWindow", "todoWindow", "filmSelectWindow"];
+const ids = [
+    "welcome", "upload", "uploadProgress", "imagePreviewWindow", 
+    "filmstripPreviewWindow", "contactSheetWindow", "todoWindow", "filmSelectWindow",
+    "errorDialog"
+];
 
 let window_positions = {};
 function setup_interactive_window(id) {
@@ -101,3 +104,22 @@ document.addEventListener('DOMContentLoaded', function () {
         setup_interactive_window(id);
     });
 });
+
+// MARK: error dialog
+function displayErrorDialog(title, message) {
+    let dialog = document.getElementById("errorDialog");
+    let titleElement = dialog.querySelector(".title-bar-text");
+    let messageElement = dialog.querySelector("p.error-message");
+    
+    // Use the title and message elements as needed
+    titleElement.textContent = title;
+    messageElement.textContent = message;
+
+    // Show the dialog
+    dialog.classList.remove("hidden");
+}
+
+function dismissErrorDialog() {
+    let dialog = document.getElementById("errorDialog");
+    dialog.classList.add("hidden");
+}

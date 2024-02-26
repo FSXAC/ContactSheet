@@ -465,6 +465,11 @@ button.p-active {
     margin: auto;
 }
 
+#filmSelectWindow {
+    position: absolute;
+    max-width: 800px;
+}
+
 #contactSheetWindow {
     max-width: 800px;
     position: absolute;
@@ -481,6 +486,13 @@ button.p-active {
     left: 40%;
     right: 0;
     margin: auto
+}
+
+#errorDialog {
+    position: absolute;
+    max-width: 300px;
+    left: 50%;
+    top: 50%;
 }
 
 @media (max-width: 600px) {
@@ -630,31 +642,31 @@ div::-webkit-scrollbar {
     outline: 2px solid slategrey; */
   }
   
-  /* div::-webkit-scrollbar:vertical {
-    display: none;
-  } */
+/* div::-webkit-scrollbar:vertical {
+display: none;
+} */
 
-  .filmStockSelect {
+.filmStockSelect {
     /* width: 100%; */
     overflow-x: scroll;
     white-space: nowrap;
-  }
+}
 
-  .filmStockSelect .filmstock {
+.filmStockSelect .filmstock {
     display: inline-block;
     text-align: center;
     width: 100px;
     padding-top: 4px;
     padding-bottom: 4px;
     cursor: pointer;
-  }
+}
 
-  .filmStockSelect .filmstock.active {
+.filmStockSelect .filmstock.active {
     background-color: #132A7A;
     color: white;
-  }
+}
 
-  .filmStockSelect .filmstock p {
+.filmStockSelect .filmstock p {
     margin-top: 0;
     margin-bottom: 0;
-  }
+}

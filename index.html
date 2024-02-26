@@ -21,6 +21,9 @@ layout: default
             <p>No images will be uploaded to the server. All processing is done locally in your browser.</p>
         </div>
         <input type="file" id="uploadImageButton" webkitdirectory mozdirectory msdirectory odirectory directory multiple/>
+        <section class="field-row">
+            <button id="uploadImageButton_alt" disabled>Continue</button>
+        </section>
     </div>
 </div>
 
@@ -58,10 +61,9 @@ layout: default
             <button id="imagePreviewProceed" onclick="showFilmstrip()">Continue</button>
         </section>
     </div>
-        
 </div>
 
-<div class="window" id="filmSelectWindow" style="width: 800px;">
+<div class="window" id="filmSelectWindow">
     <div class="title-bar">
         <div class="title-bar-text">Filmstrip Settings</div>
             <div class="title-bar-controls">
@@ -89,7 +91,7 @@ layout: default
 <div class="window hidden" id="filmstripPreviewWindow">
     <div class="title-bar">
         <div class="title-bar-text">Filmstrip Preview</div>
-            <div class="title-bar-controls">
+        <div class="title-bar-controls">
             <button aria-label="Minimize"></button>
             <button aria-label="Maximize"></button>
             <button onclick="hideFilmstrip()" aria-label="Close"></button>
@@ -114,7 +116,7 @@ layout: default
 <div class="window hidden" id="contactSheetWindow">
     <div class="title-bar">
         <div class="title-bar-text">Contact Sheet</div>
-            <div class="title-bar-controls">
+        <div class="title-bar-controls">
             <button aria-label="Minimize"></button>
             <button aria-label="Maximize"></button>
             <button onclick="hideContactSheet()" aria-label="Close"></button>
@@ -125,6 +127,31 @@ layout: default
     </div>
 </div>
 
+
+<!-- warning dialogue boxes -->
+<div class="window" id="errorDialog">
+    <div class="title-bar">
+        <div class="title-bar-text">Placeholder</div>
+        <div class="title-bar-controls">
+            <button onclick="dismissErrorDialog()" aria-label="Close"></button>
+        </div>
+    </div>
+    <div class="window-body">
+        <div class="vertical-div" style="display: flex;">
+            <div class="left-div" style="width: 15%; display: flex; justify-content: center; align-items: center;">
+                <img src="img/msg_error-0.png" alt="">
+            </div>
+            <div class="right-div pl-2" style="width: 85%;">
+                <p class="error-message">Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia adipisci et cum. Eveniet culpa libero, molestias dolore tempore neque ad hic sunt eaque, ipsum maxime, laudantium nostrum odit rerum dolores.
+                </p>
+            </div>
+        </div>
+        
+        <section style="text-align: center;">
+            <button onclick="dismissErrorDialog()">OK</button>
+        </section>
+    </div>
+</div>
 
 <!-- todo -->
 {% include windows/todo.html %}
