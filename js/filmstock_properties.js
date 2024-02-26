@@ -51,7 +51,6 @@ class FilmStock {
 const ElementType = {
     FRAME_COUNT: 'frame count',
     LABEL: 'label',
-    BATCH_NUMBER: 'batch number',
     ARROW: 'arrow',
     DX: 'dx'
 };
@@ -92,7 +91,8 @@ const FILM = {
                 'offset': 0,
             },
             {
-                'type': ElementType.BATCH_NUMBER,
+                'type': ElementType.LABEL,
+                'text': 'N0952017',
                 'font': FONTS.vcd,
                 'color': '#800',
                 'height_mm': 2.1,

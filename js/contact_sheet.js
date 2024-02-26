@@ -175,7 +175,62 @@ function renderImages(fs, images) {
     }
 }
 
+function renderTopFrameCount(fs, element) {
+    
+}
+
+function renderTopLabel(fs, element) {
+
+    const height = element.height_mm * SCALE;
+    const margin_top = element.margin_mm * SCALE;
+    const color = element.color;
+    const h_offset = element.offset * (SHOT_WIDTH_PX + HPADDING_PX);
+
+    // setup draw
+    fs.fill(color);
+    fs.noStroke();
+    fs.textSize(height);
+    fs.textAlign(LEFT, TOP);
+    console.log(element.font);
+    console.log(FONTS_CACHE[element.font]);
+    fs.textFont(FONTS_CACHE[element.font]);
+    fs.push();
+    fs.translate(h_offset, margin_top);
+
+    // find x interval
+    let interval_px = SHOT_WIDTH_PX + HPADDING_PX;
+    if (element.repeat === RepeatType.DISTANCE) {
+        if ('interval_mm' in element) {
+            interval_px = element.interval_mm * SCALE;
+        } else {
+            console.error('Interval not specified for distance repeat type');
+        }
+    }
+
+    // draw text
+    if (element.repeat === RepeatType.NONE) {
+        fs.text(element.text, 0, 0);
+    } else {
+        for (let x = 0; x < fs.width; x += interval_px) {
+            fs.text(element.text, x, 0);
+        }
+    }
+
+    // end draw
+    fs.pop();
+}
+
 function renderTopElements(fs, film_properties) {
+    for (let i = 0; i < film_properties.top_elements.length; i++) {
+        let element = film_properties.top_elements[i];
+        
+        // Top elements can be label or frame count
+        if (element.type === ElementType.FRAME_COUNT) {
+            renderTopFrameCount(fs, element);
+        } else if (element.type === ElementType.LABEL) {
+            renderTopLabel(fs, element);
+        }
+    }
 }
 
 function renderBottomElements(fs, film_properties) {
@@ -330,7 +385,14 @@ function previewDraw() {
 
 
 function load_p5_resources() {
-    FONTS.vcd = loadFont('assets/VCD_OSD_MONO.ttf');
+    for (let key in FONTS) {
+        let font = FONTS[key];
+        if (font.endsWith('.ttf') || font.endsWith('.otf')) {
+            FONTS_CACHE[font] = loadFont('assets/' + font);
+        } else {
+            FONTS_CACHE[font] = font;
+        }
+    }
 }
 
 function setup() {

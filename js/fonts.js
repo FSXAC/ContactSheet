@@ -1,5 +1,7 @@
 
 const FONTS = {
-    vcd: 'VCR_OSD_Mono',
+    vcd: 'VCD_OSD_Mono.ttf',
     sans: 'sans-serif',
 };
+
+let FONTS_CACHE = {};
