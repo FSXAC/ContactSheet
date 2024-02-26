@@ -46,3 +46,18 @@ const SPROCKET_HOLE_ROUNDING_PX = SPROCKET_HOLE_ROUNDING_MM * SCALE;
 // const FILM_STOCKS = [
 //     ILFORD_HP5
 // ];
+
+class FilmStock {
+    constructor(name, top_line, top_line_interval_mm, top_line_follow_frame, top_line_text_size_mm, top_line_margin_mm) {
+        this.name = name;
+        this.top_line = top_line;
+        this.top_line_interval_mm = top_line_interval_mm;
+        this.top_line_follow_frame = top_line_follow_frame;
+        this.top_line_text_size_mm = top_line_text_size_mm;
+        this.top_line_margin_mm = top_line_margin_mm;
+    }
+}
+
+// create a dictionary of film stock properties
+const FILM_STOCKS = {
+}

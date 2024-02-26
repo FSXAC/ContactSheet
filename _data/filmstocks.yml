@@ -20,7 +20,7 @@
   enabled: true
 - id: ilf-delta-400
   name: Ilford Delta 400
-  icon: "unknown_roll_icon.png"
+  icon: "ilforddelta400_icon.png"
   enabled: true
 - id: ilf-delta-3200
   name: Ilford Delta 3200
@@ -36,7 +36,8 @@
   icon: "unknown_roll_icon.png"
 - id: kodak-ultra-400
   name: Kodak UltraMax 400
-  icon: "unknown_roll_icon.png"
+  icon: "kodakultra400_icon.png"
+  enabled: true
 - id: kodak-portra-400
   name: Kodak Portra 400
   icon: "unknown_roll_icon.png"
