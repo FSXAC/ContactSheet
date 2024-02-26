@@ -468,6 +468,7 @@ button.p-active {
 #filmSelectWindow {
     position: absolute;
     max-width: 800px;
+    min-width: 400px;
 }
 
 #contactSheetWindow {

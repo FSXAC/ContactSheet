@@ -73,17 +73,11 @@ layout: default
         </div>
     </div>
     <div class="window-body">
-        <div class="filmStockSelect pb-2 mb-2">
-            {% for film in site.data.filmstocks %}
-            {% if film.enabled == true %}
-            <div class="filmstock {% if film.active %}active{% endif %}" onclick="selectFilmStock('{{ film.id }}')" id="{{ film.id }}">
-            {% else %}
+        <div id="filmSelect" class="filmStockSelect pb-2 mb-2">
             <div class="filmstock disabled">
-            {% endif %}
-                <img src="img/filmrolls/{{ film.icon }}" alt="">
-                <p>{{ film.name }}</p>
+                <img src="img/filmrolls/unknown_roll_icon.png" alt="">
+                <p>No rolls loaded</p>
             </div>
-            {% endfor %}
         </div>
     </div>
 </div>
