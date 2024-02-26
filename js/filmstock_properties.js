@@ -34,6 +34,9 @@ const SPROCKET_HOLE_HEIGHT_PX = SPROCKET_HOLE_HEIGHT_MM * SCALE;
 const SPROCKET_HOLE_MARGIN_PX = SPROCKET_HOLE_MARGIN_MM * SCALE;
 const SPROCKET_HOLE_ROUNDING_PX = SPROCKET_HOLE_ROUNDING_MM * SCALE;
 
+// For convenience
+const CYCLE_W = SHOT_WIDTH_PX + HPADDING_PX;
+
 
 class FilmStock {
     constructor(name, top_line, top_line_interval_mm, top_line_follow_frame, top_line_text_size_mm, top_line_margin_mm) {
@@ -88,13 +91,14 @@ const FILM = {
                 'height_mm': 2.1,
                 'margin_mm': 0.1,
                 'repeat': RepeatType.FRAME,
-                'offset': 0,
+                'offset': 0.9,
+                'start_frame': -1,
             },
             {
                 'type': ElementType.LABEL,
                 'text': 'N0952017',
                 'font': FONTS.vcd,
-                'color': '#800',
+                'color': '#f00',
                 'height_mm': 2.1,
                 'margin_mm': 0.1,
                 'repeat': RepeatType.NONE,
@@ -109,7 +113,8 @@ const FILM = {
                 'height_mm': 2.0,
                 'margin_mm': 0.1,
                 'repeat': RepeatType.FRAME,
-                'offset': 0,
+                'offset': 0.9,
+                'start_frame': -1,
             },
         ],
         'sprocket_hole_color': '#d81',
@@ -119,29 +124,75 @@ const FILM = {
         'icon': 'ilfordhp5plus400_icon.png',
         'enabled': true,
         'dx_code': '017534',
+        'top_elements': [
+            {
+                'type': ElementType.LABEL,
+                'text': 'ILFORD HP5 PLUS',
+                'font': FONTS.vcd,
+                'color': '#fff',
+                'height_mm': 2.1,
+                'margin_mm': 0.1,
+                'repeat': RepeatType.FRAME,
+                'offset': 0,
+            },
+            {
+                'type': ElementType.FRAME_COUNT,
+                'font': FONTS.vcd,
+                'color': '#fff',
+                'height_mm': 2.1,
+                'margin_mm': 0.1,
+                'repeat': RepeatType.FRAME,
+                'offset': 0.9,
+                'start_frame': -1,
+            },
+            {
+                'type': ElementType.LABEL,
+                'text': 'N0952017',
+                'font': FONTS.vcd,
+                'color': '#fff',
+                'height_mm': 2.1,
+                'margin_mm': 0.1,
+                'repeat': RepeatType.FRAME,
+                'every': 2,
+                'offset': 0.3,
+            }
+        ],
+        'bottom_elements': [
+            {
+                'type': ElementType.FRAME_COUNT,
+                'font': FONTS.vcd,
+                'color': '#fff',
+                'height_mm': 2.0,
+                'margin_mm': 0.1,
+                'repeat': RepeatType.FRAME,
+                'offset': 0.9,
+                'start_frame': -1,
+            },
+        ],
+        'sprocket_hole_color': '#444',
     },
     'kentmere-400': {
         'name': 'Kentmere Pan 400',
         'icon': 'kentmerepan400_icon.png',
-        'enabled': true,
+        'enabled': false,
         'dx_code': '017704',
     },
     'kentmere-100': {
         'name': 'Kentmere Pan 100',
         'icon': 'kentmerepan100_icon.png',
-        'enabled': true,
+        'enabled': false,
         'dx_code': -1,
     },
     'ilf-sfx-200': {
         'name': 'Ilford SFX 200',
         'icon': 'ilfordsfx200_icon.png',
-        'enabled': true,
+        'enabled': false,
         'dx_code': '017354',
     },
     'ilf-delta-400': {
         'name': 'Ilford Delta 400',
         'icon': 'ilforddelta400_icon.png',
-        'enabled': true,
+        'enabled': false,
         'dx_code': '017523',
     },
     'ilf-delta-3200': {
@@ -231,13 +282,13 @@ const FILM = {
     'kodak-proimage-100': {
         'name': 'Kodak ProImage 100',
         'icon': 'unknown_roll_icon.png',
-        'enabled': true,
+        'enabled': false,
         'dx_code': '512574',
     },
     'rollei-retro-400s': {
         'name': 'Rollei Retro 400s',
         'icon': 'unknown_roll_icon.png',
-        'enabled': true,
+        'enabled': false,
         'dx_code': '854011',
     },
 }

@@ -176,35 +176,44 @@ function renderImages(fs, images) {
 }
 
 function renderTopFrameCount(fs, element) {
-    
+    // draw frame count
+    fs.fill(element.color);
+    fs.noStroke();
+    fs.textSize(element.height_mm * SCALE);
+    fs.textAlign(LEFT, TOP);
+    fs.textFont(FONTS_CACHE[element.font]);
+    fs.push();
+    fs.translate(element.offset * CYCLE_W, element.margin_mm * SCALE);
+
+    for (let x = 0, count = element.start_frame; x < fs.width; x += CYCLE_W, count++) {
+        fs.text(frameCountToString(count), x, 0);
+    }
+    fs.pop();
 }
 
 function renderTopLabel(fs, element) {
 
-    const height = element.height_mm * SCALE;
-    const margin_top = element.margin_mm * SCALE;
-    const color = element.color;
-    const h_offset = element.offset * (SHOT_WIDTH_PX + HPADDING_PX);
-
     // setup draw
-    fs.fill(color);
+    fs.fill(element.color);
     fs.noStroke();
-    fs.textSize(height);
+    fs.textSize(element.height_mm * SCALE);
     fs.textAlign(LEFT, TOP);
-    console.log(element.font);
-    console.log(FONTS_CACHE[element.font]);
     fs.textFont(FONTS_CACHE[element.font]);
     fs.push();
-    fs.translate(h_offset, margin_top);
+    fs.translate(element.offset * CYCLE_W, element.margin_mm * SCALE);
 
     // find x interval
-    let interval_px = SHOT_WIDTH_PX + HPADDING_PX;
+    let interval_px = CYCLE_W;
     if (element.repeat === RepeatType.DISTANCE) {
         if ('interval_mm' in element) {
             interval_px = element.interval_mm * SCALE;
         } else {
             console.error('Interval not specified for distance repeat type');
         }
+    }
+
+    if (element.repeat === RepeatType.FRAME && 'every' in element) {
+        interval_px = element.every * CYCLE_W;
     }
 
     // draw text
@@ -239,7 +248,7 @@ function renderBottomElements(fs, film_properties) {
 function renderFilmstrip(images) {
 
     // Create a new canvas for the filmstrip
-    let fs_width = images.length * (SHOT_WIDTH_PX + HPADDING_PX) + HPADDING_PX;
+    let fs_width = images.length * CYCLE_W + HPADDING_PX;
     let fs_height = SHOT_HEIGHT_PX + 2 * VPADDING_PX;
     let fs = createGraphics(fs_width, fs_height);
     fs.background(0);
