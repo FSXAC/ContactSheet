@@ -1,8 +1,12 @@
-const CLK_TRACK = [
-    1, 1, 1, 1, 1,
-    ...(new Array(26).fill(0).map((_, i) => (i) % 2))
-];
+// clock track consiting of 1s and 0s
+const CLK_TRACK = [1, 1, 1, 1, 1, ...(new Array(26).fill(0).map((_, i) => (i) % 2))];
 
+
+/**
+ * Calculates the number of exposures based on the given dx code.
+ * @param {number} dx - The dx code.
+ * @returns {number} - The number of exposures.
+ */
 function get_num_exp(dx) {
     let exp_code = parseInt(dx % 10);
     if (exp_code === 1) {
@@ -24,22 +28,44 @@ function get_num_exp(dx) {
     }
 }
 
-
+/**
+ * Calculates the DX2 value based on the given DX value.
+ * @param {number} dx - The DX value.
+ * @returns {number} - The calculated DX2 value.
+ */
 function getDX2(dx) {
     let dx2 = Math.floor(dx / 10);
     return dx2 % 16;
 }
 
+/**
+ * Calculates the DX1 value based on the given DX value.
+ * 
+ * @param {number} dx - The DX value.
+ * @returns {number} - The calculated DX1 value.
+ */
 function getDX1(dx) {
     let dx1 = Math.floor(dx / 10);
     return (dx1 - getDX2(dx)) / 16;
 }
 
+/**
+ * Calculates the parity of three numbers.
+ * @param {number} dx1 - The first number.
+ * @param {number} dx2 - The second number.
+ * @param {number} frameNum - The third number.
+ * @returns {number} The parity of the three numbers.
+ */
 function getParity(dx1, dx2, frameNum) {
     return (dx1 % 2 + dx2 % 2 + frameNum % 2) % 2;
 }
 
-
+/**
+ * Creates a data track based on the given dx value and frame number.
+ * @param {number} dx - The dx value.
+ * @param {number} frameNum - The frame number.
+ * @returns {number[]} - The data track array.
+ */
 function makeDataTrack(dx, frameNum) {
     let dataTrack = new Array(31).fill(0);
     let dx1 = getDX1(dx);
@@ -87,20 +113,22 @@ function makeDataTrack(dx, frameNum) {
     return dataTrack;
 }
 
+/**
+ * Draws a DX code image based on the given DX code and frame number.
+ * @param {string} dx - The DX code.
+ * @param {number} frameNum - The frame number.
+ * @returns {p5.Graphics} - The DX code image.
+ */
 function drawDX(dx, frameNum) {
-    
+
     let bit_width = 2;
     let bit_height = 5;
-    // console.log("bit_width: " + bit_width + ", bit_height: " + bit_height);
-    // let bit_width = width / 31;
-    // let bit_height = height / 2;
 
     let dxImage = createGraphics(bit_width * 31, bit_height * 2);
     dxImage.noStroke();
     dxImage.background(0);
     dxImage.fill(FILM_BORDER_COLOR);
-    
-    // dxImage.stroke(255);
+
     dxImage.noStroke();
 
     // draw clock track
@@ -108,7 +136,7 @@ function drawDX(dx, frameNum) {
         if (CLK_TRACK[i] === 1) {
             dxImage.rect(i * bit_width, 0, bit_width, bit_height);
         }
-       
+
     }
 
     // draw data track
@@ -118,6 +146,6 @@ function drawDX(dx, frameNum) {
             dxImage.rect(i * bit_width, bit_height, bit_width, bit_height);
         }
     }
-    
+
     return dxImage
 }

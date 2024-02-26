@@ -34,18 +34,6 @@ const SPROCKET_HOLE_HEIGHT_PX = SPROCKET_HOLE_HEIGHT_MM * SCALE;
 const SPROCKET_HOLE_MARGIN_PX = SPROCKET_HOLE_MARGIN_MM * SCALE;
 const SPROCKET_HOLE_ROUNDING_PX = SPROCKET_HOLE_ROUNDING_MM * SCALE;
 
-// const ILFORD_HP5 = {
-//     name: "ILFORD HP5 PLUS",
-//     top_line: "ILFORD HP5 PLUS",
-//     top_line_interval_mm: 37.7,
-//     top_line_follow_frame: false,
-//     top_line_text_size_mm: 2.1,
-//     top_line_margin_mm: 1.5,
-// };
-
-// const FILM_STOCKS = [
-//     ILFORD_HP5
-// ];
 
 class FilmStock {
     constructor(name, top_line, top_line_interval_mm, top_line_follow_frame, top_line_text_size_mm, top_line_margin_mm) {
@@ -59,6 +47,21 @@ class FilmStock {
 }
 
 
+// Enum for types of elements
+const ElementType = {
+    FRAME_COUNT: 'frame count',
+    LABEL: 'label',
+    BATCH_NUMBER: 'batch number',
+    ARROW: 'arrow',
+    DX: 'dx'
+};
+
+const RepeatType = {
+    NONE: 'none',
+    FRAME: 'frame',
+    DISTANCE: 'distance'
+};
+
 // create a dictionary of film stock properties
 const FILM = {
     'fuji-400': {
@@ -67,6 +70,49 @@ const FILM = {
         'enabled': true,
         'active': true,
         'dx_code': '906284',
+        'top_elements': [
+            {
+                'type': ElementType.LABEL,
+                'text': 'FUJI 400',
+                'font': FONTS.sans,
+                'color': '#d81',
+                'height_mm': 2.1,
+                'margin_mm': 0.1,
+                'repeat': RepeatType.FRAME,
+                'offset': 0,
+                // addTopLineText(fs, "FUJI 400", 2.1, 0, 37.87, 6, FONTS.sans);
+            },
+            {
+                'type': ElementType.FRAME_COUNT,
+                'font': FONTS.sans,
+                'color': '#d81',
+                'height_mm': 2.1,
+                'margin_mm': 0.1,
+                'repeat': RepeatType.FRAME,
+                'offset': 0,
+            },
+            {
+                'type': ElementType.BATCH_NUMBER,
+                'font': FONTS.vcd,
+                'color': '#800',
+                'height_mm': 2.1,
+                'margin_mm': 0.1,
+                'repeat': RepeatType.NONE,
+                'offset': 3, // if repeat is none, this is the abs offset in frac. of frame count
+            }
+        ],
+        'bottom_elements': [
+            {
+                'type': ElementType.FRAME_COUNT,
+                'font': FONTS.sans,
+                'color': '#d81',
+                'height_mm': 2.0,
+                'margin_mm': 0.1,
+                'repeat': RepeatType.FRAME,
+                'offset': 0,
+            },
+        ],
+        'sprocket_hole_color': '#d81',
     },
     'ilf-hp5-400': {
         'name': 'Ilford HP5 400',

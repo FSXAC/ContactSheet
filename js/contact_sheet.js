@@ -1,11 +1,6 @@
 // pimage
 let images = [];
 
-let FONTS = {
-    vcd: null,
-    sans: 'sans-serif',
-};
-
 function randrange(min, max) {
     return Math.random() * (max - min) + min;
 }
@@ -23,7 +18,7 @@ function refreshImages() {
     console.log(images);
 }
 
-function addTopLineText(fs, text, size_mm, margin_top_mm, interval_mm, offset_mm, textfont="sans-serif", text_color=FILM_BORDER_COLOR) {
+function addTopLineText(fs, text, size_mm, margin_top_mm, interval_mm, offset_mm, textfont = "sans-serif", text_color = FILM_BORDER_COLOR) {
     if (interval_mm <= 0) {
         interval_mm = SHOT_WIDTH_MM + HPADDING_MM;
     }
@@ -60,12 +55,12 @@ function frameCountToString(fc) {
 
 function addBottomLine(
     fs,
-    fc_start=-2,
-    fc_size_mm=2,
-    fc_margin_mm=0.1,
-    fc2_size_mm=1.4,
-    fc2_margin_mm=0,
-    fc2_hoffset_mm=1.2,
+    fc_start = -2,
+    fc_size_mm = 2,
+    fc_margin_mm = 0.1,
+    fc2_size_mm = 1.4,
+    fc2_margin_mm = 0,
+    fc2_hoffset_mm = 1.2,
     fc2_tri_width_mm = 1.5,
     fc2_tri_height_mm = 0.8,
     fc2_tri_margin_mm = 0.8,
@@ -76,8 +71,8 @@ function addBottomLine(
     dx_num = 17534,
     dx_code_width_mm = 12,
     dx_code_height_mm = 2,
-    ) {
-    
+) {
+
     let fc_size_px = fc_size_mm * SCALE;
     let fc_margin_px = fc_margin_mm * SCALE;
     let fc2_size_px = fc2_size_mm * SCALE;
@@ -106,7 +101,7 @@ function addBottomLine(
     fs.textAlign(CENTER, BOTTOM);
     for (let x = 0, fc = fc_start; x < MAX_WIDTH; x += FW, fc++) {
         fs.text(frameCountToString(fc), x, fs.height - fc_margin_px);
-        
+
         // also add one on top (TODO: make option)
         fs.text(frameCountToString(fc), x, SPROCKET_HOLE_MARGIN_PX);
     }
@@ -126,9 +121,9 @@ function addBottomLine(
         fs.push();
         fs.translate(x, fs.height - fc2_tri_margin_px);
         fs.triangle(
-            fc2_tri_hoffset_px, fc2_tri_height_px/2,
+            fc2_tri_hoffset_px, fc2_tri_height_px / 2,
             fc2_tri_hoffset_px + fc2_tri_width_px, 0,
-            fc2_tri_hoffset_px, -fc2_tri_height_px/2
+            fc2_tri_hoffset_px, -fc2_tri_height_px / 2
         );
         fs.pop();
     }
@@ -157,7 +152,72 @@ function addBottomLine(
     fs.pop();
 }
 
+function renderSprocketHoles(fs, film_properties) {
+    let dx = SPROCKET_HOLE_WIDTH_PX + SPROCKET_HOLE_SPACING_WIDTH_PX;
+    // let start_x = Math.random() * 0.5 * dx; // Generate random value between 0 and 0.5 times dx
+    let start_x = 0;
+    fs.fill('#000'); // FIXME:
+    fs.stroke(film_properties.sprocket_hole_color);
+    fs.strokeWeight(0.5);
+    for (let x = start_x; x < fs.width; x += dx) {
+        fs.rect(x, SPROCKET_HOLE_MARGIN_PX, SPROCKET_HOLE_WIDTH_PX, SPROCKET_HOLE_HEIGHT_PX, SPROCKET_HOLE_ROUNDING_PX);
+        fs.rect(x, fs.height - SPROCKET_HOLE_MARGIN_PX - SPROCKET_HOLE_HEIGHT_PX, SPROCKET_HOLE_WIDTH_PX, SPROCKET_HOLE_HEIGHT_PX, SPROCKET_HOLE_ROUNDING_PX);
+    }
+}
+
+function renderImages(fs, images) {
+    let x = HPADDING_PX;
+    let y = VPADDING_PX;
+    for (let i = 0; i < images.length; i++) {
+        let img = images[i];
+        fs.image(img, x, y, SHOT_WIDTH_PX, SHOT_HEIGHT_PX);
+        x += SHOT_WIDTH_PX + HPADDING_PX;
+    }
+}
+
+function renderTopElements(fs, film_properties) {
+}
+
+function renderBottomElements(fs, film_properties) {
+}
+
 function renderFilmstrip(images) {
+
+    // Create a new canvas for the filmstrip
+    let fs_width = images.length * (SHOT_WIDTH_PX + HPADDING_PX) + HPADDING_PX;
+    let fs_height = SHOT_HEIGHT_PX + 2 * VPADDING_PX;
+    let fs = createGraphics(fs_width, fs_height);
+    fs.background(0);
+
+    // Get film stock properties (from selected film stock)
+    // TODO: move this to a separate function
+
+    // look for all 'filmstock' classes within parent id 'filmSelect'
+    // filmstock is the one that has the 'active' class
+    let filmstock = document.getElementById('filmSelect').getElementsByClassName('filmstock active')[0];
+    if (filmstock == null) {
+        alert('No film stock selected');
+        return;
+    }
+
+    // get the film stock properties
+    let film_properties = FILM[filmstock.id];
+    console.log(film_properties);
+
+    // draw film border
+    renderTopElements(fs, film_properties);
+    renderBottomElements(fs, film_properties);
+
+    // draw sprocket holes
+    renderSprocketHoles(fs, film_properties);
+
+    // draw images
+    renderImages(fs, images);
+
+    return fs;
+}
+
+function renderFilmstrip1(images) {
     let fs_width = images.length * (SHOT_WIDTH_PX + HPADDING_PX) + HPADDING_PX;
     let fs_height = SHOT_HEIGHT_PX + 2 * VPADDING_PX;
     let fs = createGraphics(fs_width, fs_height);
@@ -174,12 +234,12 @@ function renderFilmstrip(images) {
     SPROKET_HOLE_STROKE_COLOR = '#d82a'
     FILM_BORDER_COLOR = '#ea2'
     addTopLineText(fs, "FUJI 400", 2.1, 0, 37.87, 6, FONTS.sans);
-    addBottomLine(fs, fc_start=-2,
-        fc_size_mm=2,
-        fc_margin_mm=0.1,
-        fc2_size_mm=1.4,
-        fc2_margin_mm=0,
-        fc2_hoffset_mm=1.2,
+    addBottomLine(fs, fc_start = -2,
+        fc_size_mm = 2,
+        fc_margin_mm = 0.1,
+        fc2_size_mm = 1.4,
+        fc2_margin_mm = 0,
+        fc2_hoffset_mm = 1.2,
         fc2_tri_width_mm = 1.5,
         fc2_tri_height_mm = 0.8,
         fc2_tri_margin_mm = 0.8,
@@ -197,7 +257,7 @@ function renderFilmstrip(images) {
     // fs_blur.copy(fs, 0, 0, fs.width, fs.height, 0, 0, fs.width, fs.height);
     // fs_blur.filter(ERODE);
     // fs.blend(fs_blur, 0, 0, fs.width, fs.height, 0, 0, fs.width, fs.height, EXCLUSION);
-    
+
 
     // draw sprocket holes
     let dx = SPROCKET_HOLE_WIDTH_PX + SPROCKET_HOLE_SPACING_WIDTH_PX;
@@ -218,11 +278,11 @@ function renderFilmstrip(images) {
         fs.image(img, x, y, SHOT_WIDTH_PX, SHOT_HEIGHT_PX);
         x += SHOT_WIDTH_PX + HPADDING_PX;
     }
-    
+
     return fs;
 }
 
-function renderContactSheet(filmstrip, num_cols, padding_mm, strip_spacing_mm=1.5) {
+function renderContactSheet(filmstrip, num_cols, padding_mm, strip_spacing_mm = 1.5) {
     let padding_px = padding_mm * SCALE;
     let strip_spacing_px = strip_spacing_mm * SCALE;
     let cs_width = num_cols * (SHOT_WIDTH_PX + HPADDING_PX) - HPADDING_PX + 2 * padding_px;
