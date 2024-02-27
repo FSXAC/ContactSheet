@@ -213,6 +213,10 @@ function renderDX(fs, element, dx_code, start_frame) {
         framenum++;
         fs.image(dx1, x + delta_x1, 0, dx_code_width_px, dx_code_height_px);
         fs.image(dx2, x + delta_x2, 0, dx_code_width_px, dx_code_height_px);
+
+        // free memory
+        dx1.remove();
+        dx2.remove();
     }
 
     fs.pop();
@@ -333,6 +337,7 @@ function renderFilmstrip(images, options=DEFAULT_FILMSTRIP_OPTIONS) {
         fs_blur.copy(fs, 0, 0, fs.width, fs.height, 0, 0, fs.width, fs.height);
         fs_blur.filter(BLUR, 2.5);
         fs.blend(fs_blur, 0, 0, fs.width, fs.height, 0, 0, fs.width, fs.height, SOFT_LIGHT);
+        fs_blur.remove();
     }
 
     // draw sprocket holes
@@ -451,6 +456,7 @@ function previewDraw() {
     // put fs as image to #filmstripimg
     let fsimg = document.getElementById('filmstripimg');
     fsimg.src = fs.canvas.toDataURL();
+    fs.remove();
     fsimg.style.display = 'block';
 
     // draw contact sheet
@@ -458,6 +464,7 @@ function previewDraw() {
     // put cs as image to #contactsheetimg
     let csimg = document.getElementById('contactsheetimg');
     csimg.src = cs.canvas.toDataURL();
+    cs.remove();
     csimg.style.display = 'block';
 }
 
