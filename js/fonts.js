@@ -1,6 +1,6 @@
 
 const FONTS = {
-    vcd: 'VCD_OSD_Mono.ttf',
+    vcd: 'VCD_OSD_MONO.ttf',
     sans: 'Arial',
 };
 
