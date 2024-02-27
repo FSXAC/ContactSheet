@@ -73,7 +73,6 @@ function makeDataTrack(dx, frameNum) {
     let dataTrack = new Array(31).fill(0);
     let dx1 = getDX1(dx);
     let dx2 = getDX2(dx);
-    console.log("dx1: " + dx1 + ", dx2: " + dx2 + ", frameNum: " + frameNum);
 
     // bits [0-5] are alternating
     for (let i = 0; i < 6; i++) {

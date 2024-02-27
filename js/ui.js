@@ -39,6 +39,7 @@ function finishLoad() {
 }
 
 function showFilmstrip() {
+    previewDraw();
     document.getElementById("filmstripPreviewWindow").classList.remove("hidden");
 }
 

@@ -14,8 +14,6 @@ function refreshImages() {
         let img = previewImages[i];
         images.push(loadImage(img.src));
     }
-
-    console.log(images);
 }
 
 function frameCountToString(fc, alt) {
@@ -242,10 +240,10 @@ function renderBottomArrow(fs, element) {
 
     // draw triangle tail
     const tail_width = element.tail_width_mm * SCALE;
-    fs.noFill();
-    fs.stroke(element.color);
-    fs.strokeWeight(element.tail_height_mm * SCALE);
     if (element.has_tail) {
+        fs.noFill();
+        fs.stroke(element.color);
+        fs.strokeWeight(element.tail_height_mm * SCALE);
         for (let x = 0; x < fs.width; x += CYCLE_W) {
             fs.line(x - tail_width, 0, x, 0);
         }
@@ -279,8 +277,10 @@ const DEFAULT_FILMSTRIP_OPTIONS = {
 function renderFilmstrip(images, options=DEFAULT_FILMSTRIP_OPTIONS) {
 
     // Create a new canvas for the filmstrip
-    let fs_width = images.length * CYCLE_W + HPADDING_PX;
-    let fs_height = SHOT_HEIGHT_PX + 2 * VPADDING_PX;
+    const fs_width = images.length * CYCLE_W + HPADDING_PX;
+    const fs_height = SHOT_HEIGHT_PX + 2 * VPADDING_PX;
+    const fs_width_int = Math.round(fs_width);
+    const fs_height_int = Math.round(fs_height);
     let fs = createGraphics(fs_width, fs_height);
     fs.background(0);
 
@@ -297,7 +297,6 @@ function renderFilmstrip(images, options=DEFAULT_FILMSTRIP_OPTIONS) {
 
     // get the film stock properties
     let film_properties = FILM[filmstock.id];
-    console.log(film_properties);
 
     // draw film border
     renderTopElements(fs, film_properties);
@@ -306,16 +305,8 @@ function renderFilmstrip(images, options=DEFAULT_FILMSTRIP_OPTIONS) {
     // Add grain
     const grain_color = color(film_properties.sprocket_hole_color);
     if (options.add_grain) {
-        let grain_map = createImage(fs.width, fs.height);
-        // grain.background(grain_color);
+        let grain_map = createImage(fs_width_int, fs_height_int);
         grain_map.loadPixels();
-        // grain.tint(grain_color);
-        // grain.loadPixels();
-        // for (let x = 0; x < grain.width; x++) {
-        //     for (let y = 0; y < grain.height; y++) {
-        //         grain.set(x, y, randrange(0, 30));
-        //     }
-        // }
         const N = 4 * grain_map.width * grain_map.height;
         const grain_color_R = red(grain_color);
         const grain_color_G = green(grain_color);
@@ -327,17 +318,16 @@ function renderFilmstrip(images, options=DEFAULT_FILMSTRIP_OPTIONS) {
             grain_map.pixels[i + 3] = randrange(0, 50);
         }
         grain_map.updatePixels();
-        // fs.image(grain_map, 0, 0, fs.width, fs.height);
-        fs.blend(grain_map, 0, 0, fs.width, fs.height, 0, 0, fs.width, fs.height, ADD);
+        fs.blend(grain_map, 0, 0, fs_width_int, fs_height_int, 0, 0, fs_width_int, fs_height_int, ADD);
     }
 
     // Apply glow effect
     if (options.apply_glow) {
-        let fs_blur = createGraphics(fs.width, fs.height);
-        fs_blur.copy(fs, 0, 0, fs.width, fs.height, 0, 0, fs.width, fs.height);
-        fs_blur.filter(BLUR, 2.5);
-        fs.blend(fs_blur, 0, 0, fs.width, fs.height, 0, 0, fs.width, fs.height, SOFT_LIGHT);
-        fs_blur.remove();
+        let fs_blur = createImage(fs.width, fs.height);
+        fs_blur.copy(fs, 0, 0, fs_width_int, fs_height_int, 0, 0, fs_width_int, fs_height_int);
+        fs_blur.filter(BLUR, 3);
+        fs.blend(fs_blur, 0, 0, fs_width_int, fs_height_int, 0, 0, fs_width_int, fs_height_int, SOFT_LIGHT);
+        // fs_blur.remove();
     }
 
     // draw sprocket holes
@@ -347,75 +337,10 @@ function renderFilmstrip(images, options=DEFAULT_FILMSTRIP_OPTIONS) {
     renderImages(fs, images);
 
     // Respect color vs monochrome
-    if (film_properties.bw) {
-        fs.filter(GRAY);
-    }
+    // if (film_properties.bw) {
+    //     fs.filter(GRAY);
+    // }
 
-
-    return fs;
-}
-
-function renderFilmstrip1(images) {
-    let fs_width = images.length * (SHOT_WIDTH_PX + HPADDING_PX) + HPADDING_PX;
-    let fs_height = SHOT_HEIGHT_PX + 2 * VPADDING_PX;
-    let fs = createGraphics(fs_width, fs_height);
-    fs.background(0);
-
-    // draw film border
-    // Illford HP5 Plus
-    // addTopLineText(fs, "ILFORD HP5 PLUS", 2.1, 0, 37.87, 12, FONTS.vcd);
-    // addTopLineText(fs, "5535-12", 1.0, 0.3, 113.61, 35, FONTS.vcd);
-    // addBottomLine(fs);
-
-    // Fuji
-    SPROKET_HOLE_COLOR = '#000';
-    SPROKET_HOLE_STROKE_COLOR = '#d82a'
-    FILM_BORDER_COLOR = '#ea2'
-    addTopLineText(fs, "FUJI 400", 2.1, 0, 37.87, 6, FONTS.sans);
-    addBottomLine(fs, fc_start = -2,
-        fc_size_mm = 2,
-        fc_margin_mm = 0.1,
-        fc2_size_mm = 1.4,
-        fc2_margin_mm = 0,
-        fc2_hoffset_mm = 1.2,
-        fc2_tri_width_mm = 1.5,
-        fc2_tri_height_mm = 0.8,
-        fc2_tri_margin_mm = 0.8,
-        fc2_tri_hoffset_mm = -2.1,
-        fc2_tri_inner_color = FILM_BORDER_COLOR,
-        hoffset_perc = 0,
-        draw_dx_code = true,
-        dx_num = 6284,
-        dx_code_width_mm = 12,
-        dx_code_height_mm = 2);
-    // addTopLineText(fs, "P0958014", 2.1, 0, 9999, 24, FONTS.vcd, '#811');
-
-    // Apply glow effect
-    // let fs_blur = createGraphics(fs.width, fs.height);
-    // fs_blur.copy(fs, 0, 0, fs.width, fs.height, 0, 0, fs.width, fs.height);
-    // fs_blur.filter(ERODE);
-    // fs.blend(fs_blur, 0, 0, fs.width, fs.height, 0, 0, fs.width, fs.height, EXCLUSION);
-
-
-    // draw sprocket holes
-    let dx = SPROCKET_HOLE_WIDTH_PX + SPROCKET_HOLE_SPACING_WIDTH_PX;
-    let start_x = Math.random() * 0.5 * dx; // Generate random value between 0 and 0.5 times dx
-    fs.fill(SPROKET_HOLE_COLOR);
-    fs.stroke(SPROKET_HOLE_STROKE_COLOR);
-    fs.strokeWeight(0.5);
-    for (let x = start_x; x < fs_width; x += dx) {
-        fs.rect(x, SPROCKET_HOLE_MARGIN_PX, SPROCKET_HOLE_WIDTH_PX, SPROCKET_HOLE_HEIGHT_PX, SPROCKET_HOLE_ROUNDING_PX);
-        fs.rect(x, fs_height - SPROCKET_HOLE_MARGIN_PX - SPROCKET_HOLE_HEIGHT_PX, SPROCKET_HOLE_WIDTH_PX, SPROCKET_HOLE_HEIGHT_PX, SPROCKET_HOLE_ROUNDING_PX);
-    }
-
-    // draw images
-    let x = HPADDING_PX;
-    let y = VPADDING_PX;
-    for (let i = 0; i < images.length; i++) {
-        let img = images[i];
-        fs.image(img, x, y, SHOT_WIDTH_PX, SHOT_HEIGHT_PX);
-        x += SHOT_WIDTH_PX + HPADDING_PX;
-    }
 
     return fs;
 }
@@ -449,21 +374,33 @@ function renderContactSheet(filmstrip, num_cols, padding_mm, strip_spacing_mm = 
 }
 
 function previewDraw() {
-    redraw();
+    // redraw();
 
     // draw filmstrip
     let fs = renderFilmstrip(images);
-    // put fs as image to #filmstripimg
     let fsimg = document.getElementById('filmstripimg');
-    fsimg.src = fs.canvas.toDataURL();
+    fs.canvas.toBlob(function(blob) {
+        let url = URL.createObjectURL(blob);
+        fsimg.src = url;
+
+        fsimg.onload = function() {
+            URL.revokeObjectURL(url);
+        };
+    });
     fs.remove();
     fsimg.style.display = 'block';
 
     // draw contact sheet
     let cs = renderContactSheet(fs, 5, 3);
-    // put cs as image to #contactsheetimg
     let csimg = document.getElementById('contactsheetimg');
-    csimg.src = cs.canvas.toDataURL();
+    cs.canvas.toBlob(function(blob) {
+        let url = URL.createObjectURL(blob);
+        csimg.src = url;
+
+        csimg.onload = function() {
+            URL.revokeObjectURL(url);
+        };
+    });
     cs.remove();
     csimg.style.display = 'block';
 }

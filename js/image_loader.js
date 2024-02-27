@@ -75,7 +75,7 @@ function uploadImages(event) {
                     // document.getElementById('filmstripPreview').classList.remove('disabled');
 
                     // enable preview
-                    previewDraw();
+                    // previewDraw();
 
                     // enable ok button remove 'disabled' attribute
                     // document.getElementById('uploadOKButton').removeAttribute('disabled');

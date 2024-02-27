@@ -1,7 +1,8 @@
 // various physical film properties
 
 // this is the preview height in pixels
-const PREVIEW_HEIGHT = 180;
+const PREVIEW_HEIGHT = 600;
+const FINAL_HEIGHT = 200;
 
 // physical film dimensions in mm
 const SHOT_WIDTH_MM = 36;
@@ -21,7 +22,7 @@ let SPROKET_HOLE_STROKE_COLOR = "#444";
 let FILM_BORDER_COLOR = "#ccc";
 
 // based on preview height, calculate the scale factor mm -> px
-const SCALE = PREVIEW_HEIGHT / SHOT_HEIGHT_MM;
+const SCALE = FINAL_HEIGHT / SHOT_HEIGHT_MM;
 
 // calculate the remaining dimensions in px
 const SHOT_WIDTH_PX = SHOT_WIDTH_MM * SCALE;
@@ -252,7 +253,7 @@ const FILM = {
                 'offset': -0.06,
             }
         ],
-        'sprocket_hole_color': '#eee',
+        'sprocket_hole_color': '#888',
     },
     'kentmere-400': {
         'name': 'Kentmere Pan 400',
@@ -329,7 +330,7 @@ const FILM = {
                 'head_height_mm': 0.99,
             }
         ],
-        'sprocket_hole_color': '#eee',
+        'sprocket_hole_color': '#888',
     },
     'kentmere-100': {
         'name': 'Kentmere Pan 100',
@@ -406,7 +407,7 @@ const FILM = {
                 'head_height_mm': 0.99,
             }
         ],
-        'sprocket_hole_color': '#eee',
+        'sprocket_hole_color': '#888',
     },
     'ilf-sfx-200': {
         'name': 'Ilford SFX 200',
@@ -491,7 +492,7 @@ const FILM = {
                 'offset': -0.06,
             }
         ],
-        'sprocket_hole_color': '#eee',
+        'sprocket_hole_color': '#888',
     },
     'ilf-delta-400': {
         'name': 'Ilford Delta 400',
@@ -588,7 +589,7 @@ const FILM = {
                 'offset': -0.06,
             }
         ],
-        'sprocket_hole_color': '#eee',
+        'sprocket_hole_color': '#888',
     },
     'ilf-delta-3200': {
         'name': 'Ilford Delta 3200',
