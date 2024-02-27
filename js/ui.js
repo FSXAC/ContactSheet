@@ -5,7 +5,6 @@ function welcome_start() {
     
     // set mouse cursor to loading
     document.body.style.cursor = "wait";
-    load_p5_resources();
 
     setTimeout(() => {
         

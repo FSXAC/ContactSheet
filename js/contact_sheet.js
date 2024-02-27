@@ -18,147 +18,46 @@ function refreshImages() {
     console.log(images);
 }
 
-function addTopLineText(fs, text, size_mm, margin_top_mm, interval_mm, offset_mm, textfont = "sans-serif", text_color = FILM_BORDER_COLOR) {
-    if (interval_mm <= 0) {
-        interval_mm = SHOT_WIDTH_MM + HPADDING_MM;
-    }
-
-    let size_px = size_mm * SCALE;
-    let margin_top_px = margin_top_mm * SCALE;
-    let interval_px = interval_mm * SCALE;
-    let offset_px = offset_mm * SCALE;
-
-    fs.fill(text_color);
-    fs.noStroke();
-    fs.textSize(size_px);
-    fs.textAlign(LEFT, TOP);
-    fs.textFont(textfont);
-
-    fs.push();
-    fs.translate(0, margin_top_px);
-    for (let x = offset_px; x < fs.width; x += interval_px) {
-        fs.text(text, x, 0);
-    }
-    fs.pop();
-}
-
-function frameCountToString(fc) {
+function frameCountToString(fc, alt) {
     if (fc == -2) {
-        return "X";
+        if (alt) {
+            return "XA";
+        } else {
+            return "X";
+        }
     } else if (fc == -1) {
-        return "00";
+        if (alt) {
+            return "00A";
+        } else {
+            return "00";
+        }
     } else {
         // return fc.toString().padStart(2, "0");
-        return fc.toString();
+        if (alt) {
+            return fc.toString() + "A";
+        } else {
+            return fc.toString();
+        }
     }
-}
-
-function addBottomLine(
-    fs,
-    fc_start = -2,
-    fc_size_mm = 2,
-    fc_margin_mm = 0.1,
-    fc2_size_mm = 1.4,
-    fc2_margin_mm = 0,
-    fc2_hoffset_mm = 1.2,
-    fc2_tri_width_mm = 1.5,
-    fc2_tri_height_mm = 0.8,
-    fc2_tri_margin_mm = 0.8,
-    fc2_tri_hoffset_mm = -2.1,
-    fc2_tri_inner_color = FILM_BORDER_COLOR,
-    hoffset_perc = 0,
-    draw_dx_code = true,
-    dx_num = 17534,
-    dx_code_width_mm = 12,
-    dx_code_height_mm = 2,
-) {
-
-    let fc_size_px = fc_size_mm * SCALE;
-    let fc_margin_px = fc_margin_mm * SCALE;
-    let fc2_size_px = fc2_size_mm * SCALE;
-    let fc2_margin_px = fc2_margin_mm * SCALE;
-    let fc2_hoffset_px = fc2_hoffset_mm * SCALE;
-    let fc2_tri_width_px = fc2_tri_width_mm * SCALE;
-    let fc2_tri_height_px = fc2_tri_height_mm * SCALE;
-    let fc2_tri_margin_px = fc2_tri_margin_mm * SCALE;
-    let fc2_tri_hoffset_px = fc2_tri_hoffset_mm * SCALE;
-    let dx_code_width_px = dx_code_width_mm * SCALE;
-    let dx_code_height_px = dx_code_height_mm * SCALE;
-
-    let FW = SHOT_WIDTH_PX + HPADDING_PX;
-
-    // random offset to the left, [0.2FW, 0.7FW]
-    let h_offset_px = hoffset_perc * FW;
-    let MAX_WIDTH = fs.width + h_offset_px;
-
-    fs.push();
-    fs.translate(-h_offset_px, 0);
-
-    // draw frame count
-    fs.fill(FILM_BORDER_COLOR);
-    fs.noStroke();
-    fs.textSize(fc_size_px);
-    fs.textAlign(CENTER, BOTTOM);
-    for (let x = 0, fc = fc_start; x < MAX_WIDTH; x += FW, fc++) {
-        fs.text(frameCountToString(fc), x, fs.height - fc_margin_px);
-
-        // also add one on top (TODO: make option)
-        fs.text(frameCountToString(fc), x, SPROCKET_HOLE_MARGIN_PX);
-    }
-
-    // draw frame count 2
-    fs.textSize(fc2_size_px);
-    for (let x = 0 + FW / 2 + fc2_hoffset_px, fc = fc_start; x < MAX_WIDTH; x += FW, fc++) {
-        fs.text(frameCountToString(fc) + "A", x, fs.height - fc2_margin_px);
-    }
-
-    // draw frame count 2 triangles
-    fs.fill(fc2_tri_inner_color);
-    fs.stroke(FILM_BORDER_COLOR);
-    fs.textAlign(CENTER, CENTER);
-    fs.strokeWeight(1);
-    for (let x = 0 + FW / 2; x < MAX_WIDTH; x += FW) {
-        fs.push();
-        fs.translate(x, fs.height - fc2_tri_margin_px);
-        fs.triangle(
-            fc2_tri_hoffset_px, fc2_tri_height_px / 2,
-            fc2_tri_hoffset_px + fc2_tri_width_px, 0,
-            fc2_tri_hoffset_px, -fc2_tri_height_px / 2
-        );
-        fs.pop();
-    }
-
-    // draw dx code (rectangle)
-    let delta_x1 = (FW - 2 * dx_code_width_px) / 4;
-    let delta_x2 = delta_x1 + FW / 2;
-    fs.fill(FILM_BORDER_COLOR);
-    fs.noStroke();
-    let framenum = fc_start * 2;
-    for (let x = 0; x < fs.width; x += FW) {
-        // fs.rect(x + delta_x1, fs.height - dx_code_height_px, dx_code_width_px, dx_code_height_px);
-        // fs.rect(x + delta_x2, fs.height - dx_code_height_px, dx_code_width_px, dx_code_height_px);
-
-        // draw dx code (text)
-        let dx1 = drawDX(dx_num, framenum);
-        framenum++;
-        let dx2 = drawDX(dx_num, framenum);
-        framenum++;
-        // fs.image(dx1, x + delta_x1, fs.height - dx_code_height_px);
-        // fs.image(dx2, x + delta_x2, fs.height - dx_code_height_px);
-        fs.image(dx1, x + delta_x1, fs.height - dx_code_height_px, dx_code_width_px, dx_code_height_px);
-        fs.image(dx2, x + delta_x2, fs.height - dx_code_height_px, dx_code_width_px, dx_code_height_px);
-    }
-
-    fs.pop();
 }
 
 function renderSprocketHoles(fs, film_properties) {
     let dx = SPROCKET_HOLE_WIDTH_PX + SPROCKET_HOLE_SPACING_WIDTH_PX;
     // let start_x = Math.random() * 0.5 * dx; // Generate random value between 0 and 0.5 times dx
     let start_x = 0;
-    fs.fill('#000'); // FIXME:
+    // FIXME:
+    fs.noFill();
     fs.stroke(film_properties.sprocket_hole_color);
     fs.strokeWeight(0.5);
+    fs.blendMode(ADD);
+    for (let x = start_x; x < fs.width; x += dx) {
+        fs.rect(x, SPROCKET_HOLE_MARGIN_PX, SPROCKET_HOLE_WIDTH_PX, SPROCKET_HOLE_HEIGHT_PX, SPROCKET_HOLE_ROUNDING_PX);
+        fs.rect(x, fs.height - SPROCKET_HOLE_MARGIN_PX - SPROCKET_HOLE_HEIGHT_PX, SPROCKET_HOLE_WIDTH_PX, SPROCKET_HOLE_HEIGHT_PX, SPROCKET_HOLE_ROUNDING_PX);
+    }
+
+    fs.blendMode(BLEND);
+    fs.fill(0);
+    fs.noStroke();
     for (let x = start_x; x < fs.width; x += dx) {
         fs.rect(x, SPROCKET_HOLE_MARGIN_PX, SPROCKET_HOLE_WIDTH_PX, SPROCKET_HOLE_HEIGHT_PX, SPROCKET_HOLE_ROUNDING_PX);
         fs.rect(x, fs.height - SPROCKET_HOLE_MARGIN_PX - SPROCKET_HOLE_HEIGHT_PX, SPROCKET_HOLE_WIDTH_PX, SPROCKET_HOLE_HEIGHT_PX, SPROCKET_HOLE_ROUNDING_PX);
@@ -180,7 +79,7 @@ function renderTopFrameCount(fs, element, start_frame = 0) {
     fs.fill(element.color);
     fs.noStroke();
     fs.textSize(element.height_mm * SCALE);
-    fs.textAlign(LEFT, TOP);
+    fs.textAlign(CENTER, TOP);
     fs.textFont(FONTS_CACHE[element.font]);
     fs.push();
     fs.translate(element.offset * CYCLE_W, element.margin_mm * SCALE);
@@ -191,18 +90,18 @@ function renderTopFrameCount(fs, element, start_frame = 0) {
     fs.pop();
 }
 
-function renderBottomFrameCount(fs, element, start_frame = 0) {
+function renderBottomFrameCount(fs, element, start_frame = 0, alt = false) {
     // draw frame count
     fs.fill(element.color);
     fs.noStroke();
     fs.textSize(element.height_mm * SCALE);
-    fs.textAlign(LEFT, BOTTOM);
+    fs.textAlign(CENTER, BOTTOM);
     fs.textFont(FONTS_CACHE[element.font]);
     fs.push();
     fs.translate(element.offset * CYCLE_W, fs.height - element.margin_mm * SCALE);
 
     for (let x = 0, count = start_frame; x < fs.width; x += CYCLE_W, count++) {
-        fs.text(frameCountToString(count), x, 0);
+        fs.text(frameCountToString(count, alt), x, 0);
     }
     fs.pop();
 }
@@ -233,6 +132,22 @@ function renderTopLabel(fs, element) {
     }
 
     // draw text
+    if (element.font_style) {
+        switch (element.font_style) {
+            case 'bold':
+                fs.textStyle(BOLD);
+                break;
+            case 'italic':
+                fs.textStyle(ITALIC);
+                break;
+            case 'bold-italic':
+                fs.textStyle(BOLDITALIC);
+                break;
+            default:
+                fs.textStyle(NORMAL);
+                break;
+        }
+    }
     if (element.repeat === RepeatType.NONE) {
         fs.text(element.text, 0, 0);
     } else {
@@ -242,6 +157,18 @@ function renderTopLabel(fs, element) {
     }
 
     // end draw
+    fs.pop();
+}
+
+function renderTopImage(fs, element) {
+    let img = FILMSTOCK_ASSETS[element.src];
+
+    fs.push();
+    fs.translate(element.offset * CYCLE_W, element.margin_mm * SCALE);
+    if ('tint' in element) {
+        fs.tint(element.tint);
+    }
+    fs.image(img, 0, 0, element.width_mm * SCALE, element.height_mm * SCALE);
     fs.pop();
 }
 
@@ -257,36 +184,67 @@ function renderTopElements(fs, film_properties) {
             renderTopFrameCount(fs, element, film_properties.start_frame);
         } else if (element.type === ElementType.LABEL) {
             renderTopLabel(fs, element);
+        } else if (element.type === ElementType.IMAGE) {
+            renderTopImage(fs, element);
         }
     }
 }
 
-function renderDX(fs, element, dx_code, start_frame = 0) {
+function renderDX(fs, element, dx_code, start_frame) {
     let dx_code_width_px = element.width_mm * SCALE;
     let dx_code_height_px = element.height_mm * SCALE;
 
-    let delta_x1 = (CYCLE_W - 2 * dx_code_width_px) / 4;
+    // let delta_x1 = (CYCLE_W - 2 * dx_code_width_px) / 4;
+    let delta_x1 = 0;
     let delta_x2 = delta_x1 + CYCLE_W / 2;
 
     fs.push();
     fs.translate(element.offset * CYCLE_W, fs.height - dx_code_height_px);
     fs.noStroke();
-
-    let framenum = start_frame * 2;
+    
+    let framenum = start_frame * 2 - 1;
 
     for (let x = 0; x < fs.width; x += CYCLE_W) {
-        // fs.rect(x + delta_x1, fs.height - dx_code_height_px, dx_code_width_px, dx_code_height_px);
-        // fs.rect(x + delta_x2, fs.height - dx_code_height_px, dx_code_width_px, dx_code_height_px);
 
         // draw dx code (text)
         let dx1 = drawDX(dx_code, framenum, element.color);
         framenum++;
         let dx2 = drawDX(dx_code, framenum, element.color);
         framenum++;
-        // fs.image(dx1, x + delta_x1, fs.height - dx_code_height_px);
-        // fs.image(dx2, x + delta_x2, fs.height - dx_code_height_px);
         fs.image(dx1, x + delta_x1, 0, dx_code_width_px, dx_code_height_px);
         fs.image(dx2, x + delta_x2, 0, dx_code_width_px, dx_code_height_px);
+    }
+
+    fs.pop();
+}
+
+function renderBottomArrow(fs, element) {
+    fs.push();
+    fs.translate(element.offset * CYCLE_W, fs.height - element.margin_mm * SCALE);
+    
+    // draw triangle head
+    const head_top = -element.head_height_mm * SCALE * 0.5;
+    const head_bottom = -head_top;
+    const head_width = element.head_width_mm * SCALE;
+    fs.fill(element.color);
+    fs.noStroke();
+    for (let x = 0; x < fs.width; x += CYCLE_W) {
+        fs.triangle(
+            x, head_top,
+            x + head_width, 0,
+            x, head_bottom
+        );
+    }
+
+    // draw triangle tail
+    const tail_width = element.tail_width_mm * SCALE;
+    fs.noFill();
+    fs.stroke(element.color);
+    fs.strokeWeight(element.tail_height_mm * SCALE);
+    if (element.has_tail) {
+        for (let x = 0; x < fs.width; x += CYCLE_W) {
+            fs.line(x - tail_width, 0, x, 0);
+        }
     }
 
     fs.pop();
@@ -297,10 +255,14 @@ function renderBottomElements(fs, film_properties) {
         let element = film_properties.bottom_elements[i];
         if (element.type === ElementType.FRAME_COUNT) {
             renderBottomFrameCount(fs, element, film_properties.start_frame);
+        } else if (element.type === ElementType.FRAME_COUNT_ALT) {
+            renderBottomFrameCount(fs, element, film_properties.start_frame, true);
         } else if (element.type === ElementType.LABEL) {
             renderBottomLabel(fs, element);
         } else if (element.type === ElementType.DX) {
-            renderDX(fs, element, film_properties.dx_code);
+            renderDX(fs, element, film_properties.dx_code, film_properties.start_frame);
+        } else if (element.type === ElementType.ARROW) {
+            renderBottomArrow(fs, element);
         }
     }
 }
@@ -452,14 +414,28 @@ function previewDraw() {
     csimg.style.display = 'block';
 }
 
+FILMSTOCK_ASSETS = {};
 
-function load_p5_resources() {
+function preload() {
+    // load fonts
     for (let key in FONTS) {
         let font = FONTS[key];
         if (font.endsWith('.ttf') || font.endsWith('.otf')) {
             FONTS_CACHE[font] = loadFont('assets/' + font);
         } else {
             FONTS_CACHE[font] = font;
+        }
+    }
+
+    // load image assets from filmstock
+    for (let key in FILM) {
+        let filmstock = FILM[key];
+        if (filmstock.top_elements) {
+            for (top_element of filmstock.top_elements) {
+                if (top_element.type === ElementType.IMAGE) {
+                    FILMSTOCK_ASSETS[top_element.src] = loadImage(top_element.src);
+                }
+            }
         }
     }
 }

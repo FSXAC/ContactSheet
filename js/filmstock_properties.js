@@ -53,9 +53,11 @@ class FilmStock {
 // Enum for types of elements
 const ElementType = {
     FRAME_COUNT: 'frame count',
+    FRAME_COUNT_ALT: 'frame count alt',
     LABEL: 'label',
     ARROW: 'arrow',
-    DX: 'dx'
+    DX: 'dx',
+    IMAGE: 'image',
 };
 
 const RepeatType = {
@@ -71,60 +73,101 @@ const FILM = {
         'icon': 'fuji400_icon.png',
         'enabled': true,
         'active': true,
-        'dx_code': '906284',
+        // 'dx_code': '906284', // stupid code
+        'dx_code': '015270',
         'start_frame': -1,
         'top_elements': [
             {
                 'type': ElementType.LABEL,
-                'text': 'FUJI 400',
+                'text': 'FUJI',
                 'font': FONTS.sans,
-                'color': '#d81',
-                'height_mm': 2.1,
-                'margin_mm': 0.1,
+                'font_style': 'bold',
+                'color': '#dcaf7b',
+                'height_mm': 1.4,
+                'margin_mm': 0.35,
                 'repeat': RepeatType.FRAME,
-                'offset': 0,
-                // addTopLineText(fs, "FUJI 400", 2.1, 0, 37.87, 6, FONTS.sans);
+                'offset': 0.6,
+            },
+            {
+                'type': ElementType.LABEL,
+                'text': '400',
+                'font': FONTS.sans,
+                'color': '#dcaf7b',
+                'height_mm': 1.4,
+                'margin_mm': 0.35,
+                'repeat': RepeatType.FRAME,
+                'offset': 0.71,
             },
             {
                 'type': ElementType.FRAME_COUNT,
                 'font': FONTS.sans,
-                'color': '#d81',
-                'height_mm': 2.1,
-                'margin_mm': 0.1,
+                'color': '#dcaf7b',
+                'height_mm': 1.4,
+                'margin_mm': 0.35,
                 'repeat': RepeatType.FRAME,
-                'offset': 0.9,
+                'offset': 0.4,
             },
             {
-                'type': ElementType.LABEL,
-                'text': 'N0952017',
-                'font': FONTS.vcd,
-                'color': '#f00',
+                'type': ElementType.IMAGE,
+                'src': 'assets/fuji_batch_label.jpg',
+                'tint': '#c02527',
+                // 'height_mm': 1.5,
+                // 'width_mm': 14.45,
+                // 'margin_mm': 0.56,
                 'height_mm': 2.1,
+                'width_mm': 20.2,
                 'margin_mm': 0.1,
                 'repeat': RepeatType.NONE,
-                'offset': 3, // if repeat is none, this is the abs offset in frac. of frame count
+                'offset': 3,
             }
         ],
         'bottom_elements': [
             {
                 'type': ElementType.FRAME_COUNT,
                 'font': FONTS.sans,
-                'color': '#d81',
-                'height_mm': 2.0,
-                'margin_mm': 0.1,
+                'color': '#dcaf7b',
+                'height_mm': 1.65,
+                'margin_mm': 0.15,
+                'repeat': RepeatType.FRAME,
+                'offset': 0.4,
+            },
+            {
+                'type': ElementType.FRAME_COUNT_ALT,
+                'font': FONTS.sans,
+                'color': '#dcaf7b',
+                'height_mm': 1.1,
+                'margin_mm': 0.73,
                 'repeat': RepeatType.FRAME,
                 'offset': 0.9,
             },
             {
+                'type': ElementType.ARROW,
+                'color': '#dcaf7b',
+
+                //      |\   arrow pointing to the right
+                //  |===+ >  + is the origin
+                //      |/
+
+                'margin_mm': 0.32,
+                'offset': 0.882,
+
+                'head_width_mm': 1.43,
+                'head_height_mm': 0.55,
+                
+                'has_tail': true,
+                'tail_width_mm': 2.34,
+                'tail_height_mm': 0.2,
+            },
+            {
                 'type': ElementType.DX,
-                'color': '#d81',
-                'height_mm': 2.0,
-                'width_mm': 12.0,
+                'color': '#dcaf7b',
+                'height_mm': 2.2,
+                'width_mm': 12.65,
                 'repeat': RepeatType.FRAME,
-                'offset': 0.0,
+                'offset': -0.06,
             }
         ],
-        'sprocket_hole_color': '#d81',
+        'sprocket_hole_color': '#b49342',
     },
     'ilf-hp5-400': {
         'name': 'Ilford HP5 400',

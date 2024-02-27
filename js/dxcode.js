@@ -1,6 +1,9 @@
 // clock track consiting of 1s and 0s
-const CLK_TRACK = [1, 1, 1, 1, 1, ...(new Array(26).fill(0).map((_, i) => (i) % 2))];
-
+const CLK_TRACK = [
+    1, 1, 1, 1, 1,
+    ...(new Array(23).fill(0).map((_, i) => (i) % 2)),
+    1, 1, 1
+];
 
 /**
  * Calculates the number of exposures based on the given dx code.
@@ -119,7 +122,10 @@ function makeDataTrack(dx, frameNum) {
  * @param {number} frameNum - The frame number.
  * @returns {p5.Graphics} - The DX code image.
  */
-function drawDX(dx, frameNum, color) {
+function drawDX(dx, frameNum, color, debug=false) {
+
+    // process dx code (last 5 digits)
+    dx = parseInt(dx) % 100000;
 
     let bit_width = 2;
     let bit_height = 5;
@@ -146,6 +152,12 @@ function drawDX(dx, frameNum, color) {
             dxImage.rect(i * bit_width, bit_height, bit_width, bit_height);
         }
     }
+
+    // debug
+    // dxImage.fill(255);
+    // dxImage.textSize(5);
+    // dxImage.textAlign(LEFT, TOP);
+    // dxImage.text("DX:" + dx + " F#:" + frameNum, 0, 0);
 
     return dxImage
 }

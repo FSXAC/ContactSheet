@@ -1,7 +1,7 @@
 
 const FONTS = {
     vcd: 'VCD_OSD_Mono.ttf',
-    sans: 'sans-serif',
+    sans: 'Arial',
 };
 
 let FONTS_CACHE = {};
