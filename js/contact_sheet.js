@@ -267,7 +267,12 @@ function renderBottomElements(fs, film_properties) {
     }
 }
 
-function renderFilmstrip(images) {
+const DEFAULT_FILMSTRIP_OPTIONS = {
+    apply_glow: true,
+    add_grain: true,
+};
+
+function renderFilmstrip(images, options=DEFAULT_FILMSTRIP_OPTIONS) {
 
     // Create a new canvas for the filmstrip
     let fs_width = images.length * CYCLE_W + HPADDING_PX;
@@ -294,11 +299,54 @@ function renderFilmstrip(images) {
     renderTopElements(fs, film_properties);
     renderBottomElements(fs, film_properties);
 
+    // Add grain
+    const grain_color = color(film_properties.sprocket_hole_color);
+    if (options.add_grain) {
+        let grain_map = createImage(fs.width, fs.height);
+        // grain.background(grain_color);
+        grain_map.loadPixels();
+        // grain.tint(grain_color);
+        // grain.loadPixels();
+        // for (let x = 0; x < grain.width; x++) {
+        //     for (let y = 0; y < grain.height; y++) {
+        //         grain.set(x, y, randrange(0, 30));
+        //     }
+        // }
+        const N = 4 * grain_map.width * grain_map.height;
+        const grain_color_R = red(grain_color);
+        const grain_color_G = green(grain_color);
+        const grain_color_B = blue(grain_color);
+        for (let i = 0; i < N; i += 4) {
+            grain_map.pixels[i] = grain_color_R;
+            grain_map.pixels[i + 1] = grain_color_G;
+            grain_map.pixels[i + 2] = grain_color_B;
+            grain_map.pixels[i + 3] = randrange(0, 50);
+        }
+        grain_map.updatePixels();
+        // fs.image(grain_map, 0, 0, fs.width, fs.height);
+        fs.blend(grain_map, 0, 0, fs.width, fs.height, 0, 0, fs.width, fs.height, ADD);
+    }
+
+    // Apply glow effect
+    if (options.apply_glow) {
+        let fs_blur = createGraphics(fs.width, fs.height);
+        fs_blur.copy(fs, 0, 0, fs.width, fs.height, 0, 0, fs.width, fs.height);
+        fs_blur.filter(BLUR, 2.5);
+        fs.blend(fs_blur, 0, 0, fs.width, fs.height, 0, 0, fs.width, fs.height, SOFT_LIGHT);
+    }
+
     // draw sprocket holes
     renderSprocketHoles(fs, film_properties);
 
     // draw images
     renderImages(fs, images);
+
+    // Respect color vs monochrome
+    if (film_properties.bw) {
+        fs.filter(GRAY);
+    }
+
+
     return fs;
 }
 

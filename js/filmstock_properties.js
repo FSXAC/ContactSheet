@@ -174,6 +174,7 @@ const FILM = {
         'icon': 'ilfordhp5plus400_icon.png',
         'enabled': true,
         'dx_code': '017534',
+        'bw': true,
         'top_elements': [
             {
                 'type': ElementType.LABEL,
@@ -257,24 +258,28 @@ const FILM = {
         'icon': 'kentmerepan400_icon.png',
         'enabled': false,
         'dx_code': '017704',
+        'bw': true,
     },
     'kentmere-100': {
         'name': 'Kentmere Pan 100',
         'icon': 'kentmerepan100_icon.png',
         'enabled': false,
         'dx_code': -1,
+        'bw': true,
     },
     'ilf-sfx-200': {
         'name': 'Ilford SFX 200',
         'icon': 'ilfordsfx200_icon.png',
         'enabled': false,
         'dx_code': '017354',
+        'bw': true,
     },
     'ilf-delta-400': {
         'name': 'Ilford Delta 400',
         'icon': 'ilforddelta400_icon.png',
         'enabled': false,
         'dx_code': '017523',
+        'bw': true,
     },
     'ilf-delta-3200': {
         'name': 'Ilford Delta 3200',
@@ -287,18 +292,21 @@ const FILM = {
         'icon': 'unknown_roll_icon.png',
         'enabled': false,
         'dx_code': -1,
+        'bw': true,
     },
     'ilf-fp4-125': {
         'name': 'Ilford FP4 125',
         'icon': 'unknown_roll_icon.png',
         'enabled': false,
         'dx_code': -1,
+        'bw': true,
     },
     'ilf-panf-50': {
         'name': 'Ilford Pan F 50',
         'icon': 'unknown_roll_icon.png',
         'enabled': false,
         'dx_code': -1,
+        'bw': true,
     },
     'kodak-ultra-400': {
         'name': 'Kodak UltraMax 400',
