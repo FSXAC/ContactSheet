@@ -618,7 +618,7 @@ const FILM = {
         'bw': true,
     },
     'kodak-ultra-400': {
-        'name': 'Kodak UltraMax 400',
+        'name': 'Kodak GC 400',
         'icon': 'kodakultra400_icon.png',
         'enabled': true,
         'dx_code': '915373',
@@ -785,10 +785,129 @@ const FILM = {
         'dx_code': -1,
     },
     'kodak-gold-200': {
-        'name': 'Kodak Gold 200',
+        'name': 'Kodak GB 200',
         'icon': 'unknown_roll_icon.png',
         'enabled': true,
         'dx_code': '512504',
+        'start_frame': -1,
+        'top_elements': [
+            {
+                'type': ElementType.LABEL,
+                'text': 'KODAK',
+                'font': FONTS.black,
+                'color': '#dcaf7b',
+                'height_mm': 1.62,
+                'margin_mm': 0.0,
+                'repeat': RepeatType.FRAME,
+                'every': 2,
+                'offset': -0.386,
+            },
+            {
+                'type': ElementType.LABEL,
+                'text': 'GB 200-7',
+                'font': FONTS.sans,
+                'font_style': 'bold',
+                'color': '#dcaf7b',
+                'height_mm': 1.6,
+                'margin_mm': 0.2,
+                'repeat': RepeatType.FRAME,
+                'every': 2,
+                'offset': -0.18,
+            },
+            {
+                'type': ElementType.LABEL,
+                'text': 'KODAK',
+                'font': FONTS.black,
+                'font_style': 'bold',
+                'color': '#dcaf7b',
+                'height_mm': 1.62,
+                'margin_mm': 0.0,
+                'repeat': RepeatType.FRAME,
+                'every': 2,
+                'offset': 0.81,
+            },
+            {
+                'type': ElementType.LABEL,
+                'text': 'GB 200-7',
+                'font': FONTS.sans,
+                'font_style': 'bold',
+                'color': '#dcaf7b',
+                'height_mm': 1.6,
+                'margin_mm': 0.2,
+                'repeat': RepeatType.FRAME,
+                'every': 2,
+                'offset': 0.6,
+            },
+            {
+                'type': ElementType.FRAME_COUNT,
+                'font': FONTS.black,
+                'color': '#dcaf7b',
+                'height_mm': 1.62,
+                'margin_mm': 0.0,
+                'repeat': RepeatType.FRAME,
+                'offset': 0.4,
+            },
+            // {
+            //     'type': ElementType.IMAGE,
+            //     'src': 'assets/fuji_batch_label.jpg',
+            //     'tint': '#c02527',
+            //     // 'height_mm': 1.5,
+            //     // 'width_mm': 14.45,
+            //     // 'margin_mm': 0.56,
+            //     'height_mm': 2.1,
+            //     'width_mm': 20.2,
+            //     'margin_mm': 0.1,
+            //     'repeat': RepeatType.NONE,
+            //     'offset': 3,
+            // }
+        ],
+        'bottom_elements': [
+            {
+                'type': ElementType.FRAME_COUNT,
+                'font': FONTS.black,
+                'color': '#dcaf7b',
+                'height_mm': 2.0,
+                'margin_mm': -0.5,
+                'repeat': RepeatType.FRAME,
+                'offset': 0.4,
+            },
+            {
+                'type': ElementType.FRAME_COUNT_ALT,
+                'font': FONTS.black,
+                'color': '#dcaf7b',
+                'height_mm': 1.2,
+                'margin_mm': 0.55,
+                'repeat': RepeatType.FRAME,
+                'offset': 0.9,
+            },
+            {
+                'type': ElementType.ARROW,
+                'color': '#dcaf7b',
+
+                //      |\   arrow pointing to the right
+                //  |===+ >  + is the origin
+                //      |/
+
+                'margin_mm': 0.32,
+                'offset': 0.882,
+
+                'head_width_mm': 1.43,
+                'head_height_mm': 0.55,
+                
+                'has_tail': true,
+                'tail_width_mm': 2.34,
+                'tail_height_mm': 0.2,
+            },
+            {
+                'type': ElementType.DX,
+                'color': '#dcaf7b',
+                'height_mm': 2.2,
+                'width_mm': 12.65,
+                'repeat': RepeatType.FRAME,
+                'offset': -0.06,
+            }
+        ],
+        'sprocket_hole_color': '#b49342',
     },
     'kodak-colorplus-200': {
         'name': 'Kodak ColorPlus 200',
@@ -816,6 +935,9 @@ function populateFilmStocks() {
 
     for (let key in FILM) {
         let filmstock = FILM[key];
+        if (!filmstock.enabled) {
+            continue;
+        }
 
         let filmstock_el = document.createElement('div');
         let icon = filmstock.icon;
