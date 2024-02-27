@@ -299,7 +299,6 @@ function renderFilmstrip(images) {
 
     // draw images
     renderImages(fs, images);
-
     return fs;
 }
 

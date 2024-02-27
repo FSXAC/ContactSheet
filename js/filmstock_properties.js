@@ -1,7 +1,7 @@
 // various physical film properties
 
 // this is the preview height in pixels
-const PREVIEW_HEIGHT = 150;
+const PREVIEW_HEIGHT = 180;
 
 // physical film dimensions in mm
 const SHOT_WIDTH_MM = 36;

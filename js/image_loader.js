@@ -47,7 +47,26 @@ function uploadImages(event) {
                     // Sort images by name and append to preview
                     images.sort((a, b) => a.name.localeCompare(b.name));
                     for (let j = 0; j < images.length; j++) {
-                        preview.appendChild(images[j].image);
+                        let new_image = document.createElement('img');
+                        new_image.src = images[j].image.src;
+                        new_image.alt = images[j].name;
+                        new_image.id = 'previewImage' + j;
+
+                        // add event listener to each image for click
+                        // new_image.addEventListener('hover', function() {
+                        //     new_image.classList.add('hover');
+                        // });
+                        // new_image.addEventListener('click', function() {
+                        //     let all_images = document.getElementById('imagePreview');
+                        //     let id_to_remove = new_image.id;
+
+                        //     // remove html with id
+                        //     all_images.removeChild(document.getElementById(id_to_remove));
+                        // });
+
+                        preview.appendChild(new_image);
+                        
+                        // preview.appendChild(images[j].image);
                     }
 
                     finishLoad();

@@ -402,6 +402,11 @@ body {
     pointer-events: none;
 }
 
+/* #imagePreview img.hover {
+    box-shadow: 0 0 5px 2px #fff;
+    border-radius: 5px;    
+} */
+
 button.p-active {
     box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px grey;
     text-shadow: 1px 1px #222;
@@ -675,3 +680,4 @@ display: none;
 #filmstripimg {
     height: 240px;
 }
+
