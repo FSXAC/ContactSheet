@@ -119,7 +119,7 @@ function makeDataTrack(dx, frameNum) {
  * @param {number} frameNum - The frame number.
  * @returns {p5.Graphics} - The DX code image.
  */
-function drawDX(dx, frameNum) {
+function drawDX(dx, frameNum, color) {
 
     let bit_width = 2;
     let bit_height = 5;
@@ -127,7 +127,7 @@ function drawDX(dx, frameNum) {
     let dxImage = createGraphics(bit_width * 31, bit_height * 2);
     dxImage.noStroke();
     dxImage.background(0);
-    dxImage.fill(FILM_BORDER_COLOR);
+    dxImage.fill(color);
 
     dxImage.noStroke();
 

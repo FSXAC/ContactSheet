@@ -72,6 +72,7 @@ const FILM = {
         'enabled': true,
         'active': true,
         'dx_code': '906284',
+        'start_frame': -1,
         'top_elements': [
             {
                 'type': ElementType.LABEL,
@@ -92,7 +93,6 @@ const FILM = {
                 'margin_mm': 0.1,
                 'repeat': RepeatType.FRAME,
                 'offset': 0.9,
-                'start_frame': -1,
             },
             {
                 'type': ElementType.LABEL,
@@ -114,8 +114,15 @@ const FILM = {
                 'margin_mm': 0.1,
                 'repeat': RepeatType.FRAME,
                 'offset': 0.9,
-                'start_frame': -1,
             },
+            {
+                'type': ElementType.DX,
+                'color': '#d81',
+                'height_mm': 2.0,
+                'width_mm': 12.0,
+                'repeat': RepeatType.FRAME,
+                'offset': 0.0,
+            }
         ],
         'sprocket_hole_color': '#d81',
     },

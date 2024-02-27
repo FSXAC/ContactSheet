@@ -134,7 +134,7 @@ function addBottomLine(
     fs.fill(FILM_BORDER_COLOR);
     fs.noStroke();
     let framenum = fc_start * 2;
-    for (let x = 0; x < MAX_WIDTH; x += FW) {
+    for (let x = 0; x < fs.width; x += FW) {
         // fs.rect(x + delta_x1, fs.height - dx_code_height_px, dx_code_width_px, dx_code_height_px);
         // fs.rect(x + delta_x2, fs.height - dx_code_height_px, dx_code_width_px, dx_code_height_px);
 
@@ -175,7 +175,7 @@ function renderImages(fs, images) {
     }
 }
 
-function renderTopFrameCount(fs, element) {
+function renderTopFrameCount(fs, element, start_frame = 0) {
     // draw frame count
     fs.fill(element.color);
     fs.noStroke();
@@ -185,7 +185,23 @@ function renderTopFrameCount(fs, element) {
     fs.push();
     fs.translate(element.offset * CYCLE_W, element.margin_mm * SCALE);
 
-    for (let x = 0, count = element.start_frame; x < fs.width; x += CYCLE_W, count++) {
+    for (let x = 0, count = start_frame; x < fs.width; x += CYCLE_W, count++) {
+        fs.text(frameCountToString(count), x, 0);
+    }
+    fs.pop();
+}
+
+function renderBottomFrameCount(fs, element, start_frame = 0) {
+    // draw frame count
+    fs.fill(element.color);
+    fs.noStroke();
+    fs.textSize(element.height_mm * SCALE);
+    fs.textAlign(LEFT, BOTTOM);
+    fs.textFont(FONTS_CACHE[element.font]);
+    fs.push();
+    fs.translate(element.offset * CYCLE_W, fs.height - element.margin_mm * SCALE);
+
+    for (let x = 0, count = start_frame; x < fs.width; x += CYCLE_W, count++) {
         fs.text(frameCountToString(count), x, 0);
     }
     fs.pop();
@@ -229,20 +245,64 @@ function renderTopLabel(fs, element) {
     fs.pop();
 }
 
+function renderBottomLabel(fs, element) {
+}
+
 function renderTopElements(fs, film_properties) {
     for (let i = 0; i < film_properties.top_elements.length; i++) {
         let element = film_properties.top_elements[i];
         
         // Top elements can be label or frame count
         if (element.type === ElementType.FRAME_COUNT) {
-            renderTopFrameCount(fs, element);
+            renderTopFrameCount(fs, element, film_properties.start_frame);
         } else if (element.type === ElementType.LABEL) {
             renderTopLabel(fs, element);
         }
     }
 }
 
+function renderDX(fs, element, dx_code, start_frame = 0) {
+    let dx_code_width_px = element.width_mm * SCALE;
+    let dx_code_height_px = element.height_mm * SCALE;
+
+    let delta_x1 = (CYCLE_W - 2 * dx_code_width_px) / 4;
+    let delta_x2 = delta_x1 + CYCLE_W / 2;
+
+    fs.push();
+    fs.translate(element.offset * CYCLE_W, fs.height - dx_code_height_px);
+    fs.noStroke();
+
+    let framenum = start_frame * 2;
+
+    for (let x = 0; x < fs.width; x += CYCLE_W) {
+        // fs.rect(x + delta_x1, fs.height - dx_code_height_px, dx_code_width_px, dx_code_height_px);
+        // fs.rect(x + delta_x2, fs.height - dx_code_height_px, dx_code_width_px, dx_code_height_px);
+
+        // draw dx code (text)
+        let dx1 = drawDX(dx_code, framenum, element.color);
+        framenum++;
+        let dx2 = drawDX(dx_code, framenum, element.color);
+        framenum++;
+        // fs.image(dx1, x + delta_x1, fs.height - dx_code_height_px);
+        // fs.image(dx2, x + delta_x2, fs.height - dx_code_height_px);
+        fs.image(dx1, x + delta_x1, 0, dx_code_width_px, dx_code_height_px);
+        fs.image(dx2, x + delta_x2, 0, dx_code_width_px, dx_code_height_px);
+    }
+
+    fs.pop();
+}
+
 function renderBottomElements(fs, film_properties) {
+    for (let i = 0; i < film_properties.bottom_elements.length; i++) {
+        let element = film_properties.bottom_elements[i];
+        if (element.type === ElementType.FRAME_COUNT) {
+            renderBottomFrameCount(fs, element, film_properties.start_frame);
+        } else if (element.type === ElementType.LABEL) {
+            renderBottomLabel(fs, element);
+        } else if (element.type === ElementType.DX) {
+            renderDX(fs, element, film_properties.dx_code);
+        }
+    }
 }
 
 function renderFilmstrip(images) {
