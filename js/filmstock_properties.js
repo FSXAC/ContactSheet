@@ -256,7 +256,7 @@ const FILM = {
         'sprocket_hole_color': '#888',
     },
     'kentmere-400': {
-        'name': 'Kentmere Pan 400',
+        'name': 'Kentmere 400',
         'icon': 'kentmerepan400_icon.png',
         'enabled': true,
         'dx_code': '017704',
@@ -333,7 +333,7 @@ const FILM = {
         'sprocket_hole_color': '#888',
     },
     'kentmere-100': {
-        'name': 'Kentmere Pan 100',
+        'name': 'Kentmere 100',
         'icon': 'kentmerepan100_icon.png',
         'enabled': true,
         'dx_code': '017702',
@@ -681,19 +681,6 @@ const FILM = {
                 'repeat': RepeatType.FRAME,
                 'offset': 0.4,
             },
-            // {
-            //     'type': ElementType.IMAGE,
-            //     'src': 'assets/fuji_batch_label.jpg',
-            //     'tint': '#c02527',
-            //     // 'height_mm': 1.5,
-            //     // 'width_mm': 14.45,
-            //     // 'margin_mm': 0.56,
-            //     'height_mm': 2.1,
-            //     'width_mm': 20.2,
-            //     'margin_mm': 0.1,
-            //     'repeat': RepeatType.NONE,
-            //     'offset': 3,
-            // }
         ],
         'bottom_elements': [
             {
@@ -701,7 +688,7 @@ const FILM = {
                 'font': FONTS.black,
                 'color': '#dcaf7b',
                 'height_mm': 2.0,
-                'margin_mm': -0.5,
+                'margin_mm': -0.35,
                 'repeat': RepeatType.FRAME,
                 'offset': 0.4,
             },
@@ -717,10 +704,6 @@ const FILM = {
             {
                 'type': ElementType.ARROW,
                 'color': '#dcaf7b',
-
-                //      |\   arrow pointing to the right
-                //  |===+ >  + is the origin
-                //      |/
 
                 'margin_mm': 0.32,
                 'offset': 0.882,
@@ -758,8 +741,99 @@ const FILM = {
     'kodak-tmax-400': {
         'name': 'Kodak T-Max 400',
         'icon': 'unknown_roll_icon.png',
-        'enabled': false,
-        'dx_code': -1,
+        'enabled': true,
+        'dx_code': "310803",
+        'top_elements': [
+            {
+                'type': ElementType.LABEL,
+                'text': 'KODAK',
+                'font': FONTS.black,
+                'color': '#eee',
+                'height_mm': 1.62,
+                'margin_mm': 0.0,
+                'repeat': RepeatType.FRAME,
+                'offset': -0.386,
+            },
+            {
+                'type': ElementType.LABEL,
+                'text': '400-2TMY',
+                'font': FONTS.sans,
+                'font_style': 'bold',
+                'color': '#eee',
+                'height_mm': 1.6,
+                'margin_mm': 0.2,
+                'repeat': RepeatType.FRAME,
+                'offset': -0.18,
+            },
+            // {
+            //     'type': ElementType.LABEL,
+            //     'text': 'KODAK',
+            //     'font': FONTS.black,
+            //     'font_style': 'bold',
+            //     'color': '#eee',
+            //     'height_mm': 1.62,
+            //     'margin_mm': 0.0,
+            //     'repeat': RepeatType.FRAME,
+            //     'every': 2,
+            //     'offset': 0.81,
+            // },
+            // {
+            //     'type': ElementType.LABEL,
+            //     'text': 'GC 400',
+            //     'font': FONTS.sans,
+            //     'font_style': 'bold',
+            //     'color': '#dcaf7b',
+            //     'height_mm': 1.6,
+            //     'margin_mm': 0.2,
+            //     'repeat': RepeatType.FRAME,
+            //     'every': 2,
+            //     'offset': 0.63,
+            // },
+            {
+                'type': ElementType.FRAME_COUNT,
+                'font': FONTS.black,
+                'color': '#eee',
+                'height_mm': 1.62,
+                'margin_mm': 0.0,
+                'repeat': RepeatType.FRAME,
+                'offset': 0.4,
+            },
+        ],
+        'bottom_elements': [
+            {
+                'type': ElementType.FRAME_COUNT,
+                'font': FONTS.black,
+                'color': '#eee',
+                'height_mm': 2.0,
+                'margin_mm': -0.35,
+                'repeat': RepeatType.FRAME,
+                'offset': 0.4,
+            },
+            {
+                'type': ElementType.FRAME_COUNT_ALT,
+                'font': FONTS.black,
+                'color': '#eee',
+                'height_mm': 1.2,
+                'margin_mm': 0.55,
+                'repeat': RepeatType.FRAME,
+                'offset': 0.875,
+            },
+            {
+                'type': ElementType.ARROW,
+                'color': '#eee',
+
+                'margin_mm': 0.32,
+                'offset': 0.882,
+
+                'head_width_mm': 1.43,
+                'head_height_mm': 0.55,
+                
+                'has_tail': true,
+                'tail_width_mm': 2.34,
+                'tail_height_mm': 0.2,
+            }
+        ],
+        'sprocket_hole_color': '#888',
     },
     'kodak-tmax-3200': {
         'name': 'Kodak T-Max 3200',
@@ -868,7 +942,7 @@ const FILM = {
                 'font': FONTS.black,
                 'color': '#dcaf7b',
                 'height_mm': 2.0,
-                'margin_mm': -0.5,
+                'margin_mm': -0.35,
                 'repeat': RepeatType.FRAME,
                 'offset': 0.4,
             },
